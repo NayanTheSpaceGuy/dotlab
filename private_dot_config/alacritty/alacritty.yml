@@ -1,0 +1,27 @@
+# window transparency
+window:
+ opacity: 0.825
+
+ # Font configuration
+font:
+    normal:
+        family: MesloLGM Nerd Font
+        style: Regular
+ 
+    bold:
+        family: MesloLGM Nerd Font
+        style: Bold
+ 
+    italic:
+        family: MesloLGM Nerd Font
+        style: Italic
+ 
+    bold_italic:
+        family: MesloLGM Nerd Font
+        style: Bold Italic
+ 
+    book:
+        family: MesloLGM Nerd Font Mono
+        style: Book
+# default font size
+    size: 13.0
