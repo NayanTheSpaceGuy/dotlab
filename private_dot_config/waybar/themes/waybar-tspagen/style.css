@@ -1,0 +1,320 @@
+/* -----------------------------------------------------
+ * General 
+ * ----------------------------------------------------- */
+
+* {
+    font-family: "Fira Sans Regular", FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    border: none;
+    border-radius: 0px;
+}
+
+window#waybar {
+    transition-property: background-color;
+    transition-duration: .5s;
+    border-radius: 25px;
+}
+
+/* -----------------------------------------------------
+ * Tooltips
+ * ----------------------------------------------------- */
+
+tooltip {
+    border-radius: 10px;
+    background-color: @backgroundlight;
+    opacity:0.8;
+    padding:20px;
+    margin:0px;
+}
+
+tooltip label {
+    color: @textcolor2;
+}
+
+/* -----------------------------------------------------
+ * Modules
+ * ----------------------------------------------------- */
+
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+}
+
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+
+/* -----------------------------------------------------
+ * Other
+ * ----------------------------------------------------- */
+
+ label:focus {
+    background-color: #000000;
+}
+
+/* Infinity */
+#custom-infinity {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 0px 8px 15px;
+    opacity:0.8;
+}
+
+/* Taskbar */
+#taskbar {
+    background: @backgroundlight;
+    margin: 8px 10px 8px 10px;
+    padding:0px;
+    border-radius: 15px;
+    font-weight: normal;
+    font-style: normal;
+    opacity:0.8;
+    border: 3px solid @backgroundlight;
+}
+
+#taskbar button {
+    margin:0;
+    border-radius: 15px;
+    padding: 0px 5px 0px 5px;
+}
+
+wlr#taskbar.empty #taskbar #taskbar button {
+    background: transparent;
+    border: 0px solid rgba(0, 0, 0, 0);
+    padding:0px;
+    margin:0px;
+}
+
+/* Custom Settings and Group */
+#custom-settings {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 10px 8px 0px;
+    opacity:0.8;
+    border-radius: 15px;
+}
+
+#custom-waybarthemes {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 10px 8px 0px;
+    opacity:0.8;
+    border-radius: 15px;
+}
+
+#custom-keybinds {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 10px 8px 0px;
+    opacity:0.8;
+    border-radius: 15px;
+}
+
+/* Custom Updates */
+#custom-updates {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 10px 8px 0px;
+    opacity:0.8;
+}
+
+#custom-updates.green {
+    background-color: @backgroundlight;
+}
+
+#custom-updates.yellow {
+    background-color: #ff9a3c;
+    color: #FFFFFF;
+}
+
+#custom-updates.red {
+    background-color: #dc2f2f;
+    color: #FFFFFF;
+}
+
+/* Hyprland Window */
+ #window {
+    background: @backgroundlight;
+    margin: 8px 15px 8px 0px;
+    padding: 2px 10px 2px 10px;
+    border-radius: 12px;
+    color:@textcolor2;
+    font-size:16px;
+    font-weight:normal;
+    opacity:0.8;
+}
+
+window#waybar.empty #window {
+    background-color:transparent;
+}
+
+/* Hyprland Workspaces */
+#workspaces {
+    background: @workspacesbackground1;
+    margin: 5px 1px 6px 1px;
+    padding: 0px 1px;
+    border-radius: 15px;
+    border: 0px;
+    font-weight: bold;
+    font-style: normal;
+    opacity: 0.8;
+    font-size: 16px;
+    color: @textcolor1;
+}
+
+#workspaces button {
+    padding: 0px 5px;
+    margin: 4px 3px;
+    border-radius: 15px;
+    border: 0px;
+    color: @textcolor1;
+    background-color: @workspacesbackground2;
+    transition: all 0.3s ease-in-out;
+    opacity: 0.4;
+}
+
+#workspaces button.active {
+    color: @textcolor1;
+    background: @workspacesbackground2;
+    border-radius: 15px;
+    min-width: 40px;
+    transition: all 0.3s ease-in-out;
+    opacity:1.0;
+}
+
+#workspaces button:hover {
+    color: @textcolor1;
+    background: @workspacesbackground2;
+    border-radius: 15px;
+    opacity:0.7;
+}
+
+/* Hardware Group */
+#custom-system {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 10px 8px 0px;
+    opacity: 0.8;
+    border: 3px solid @bordercolor;
+}
+
+#cpu,#memory,#disk,#language {
+    margin: 0px;
+    padding: 0px;
+    font-size: 14px;
+    color: @iconcolor;
+}
+
+#cpu {
+    margin: 8px 0px 8px 10px;
+}
+
+#language {
+    margin: 8px 5px 8px 0px;
+}
+
+/* Pulseaudio / Pipewire */
+#pulseaudio {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 10px 8px 0px;
+    opacity:0.8;
+}
+
+#pulseaudio.muted {
+    background-color: @backgrounddark;
+    color: @textcolor1;
+}
+
+/* Bluetooth */
+#bluetooth, #bluetooth.on, #bluetooth.connected {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 10px 8px 0px;
+    opacity:0.8;
+}
+
+#bluetooth.off {
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* VPN */
+#custom-vpn {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 10px 8px 0px;
+    opacity:0.8;
+}
+
+/* Network */
+#network {
+    background-color: @backgroundlight;
+    font-size: 16px;
+    color: @textcolor2;
+    border-radius: 15px;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 10px 8px 0px;
+    opacity:0.8;
+}
+
+#network.ethernet {
+    background-color: @backgroundlight;
+    color: @textcolor2;
+}
+
+#network.wifi {
+    background-color: @backgroundlight;
+    color: @textcolor2;
+}
+
+#network.disconnected {
+    background-color: #f53c3c;
+}
+
+/* Clock */
+#clock {
+    background-color: @backgrounddark;
+    font-size: 16px;
+    color: @textcolor1;
+    border-radius: 15px;
+    padding: 1px 10px 0px 10px;
+    margin: 8px 10px 8px 0px;
+    opacity:0.8;
+    border:3px solid @bordercolor;   
+}
+
+/* Custom Exit */
+#custom-exit {
+    border-radius: 15px;
+    padding: 2px 10px 2px 10px;
+    margin: 8px 15px 8px 0px;
+    opacity:0.8;
+    font-size:16px;
+    background-color: @backgroundlight;
+    color: @textcolor2;
+}
+

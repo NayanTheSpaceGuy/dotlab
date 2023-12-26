@@ -1,0 +1,37 @@
+{
+    // General Settings
+    "layer": "top",
+    "margin-top": 5,
+    "margin-bottom": 0,
+    "margin-left": 5,
+    "margin-right": 5,    
+    "spacing": 0,
+
+    // Load Modules
+    "include": ["$XDG_CONFIG_HOME/waybar/modules.json"],
+
+    // Modules Left
+    "modules-left": [
+        "custom/infinity",
+        "wlr/taskbar",
+        "group/settings",
+        "custom/updates",
+        "hyprland/window"
+    ],
+
+    // Modules Center
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+
+    // Modules Right    
+    "modules-right": [
+        "group/hardware",
+        "pulseaudio",
+        "bluetooth",
+        "custom/vpn",
+        "network",
+        "clock",
+        "custom/exit"
+    ]
+}
