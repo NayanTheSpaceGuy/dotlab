@@ -9,10 +9,6 @@ style = "Bold"
 family = "MesloLGM Nerd Font"
 style = "Bold Italic"
 
-[font.book]
-family = "MesloLGM Nerd Font Mono"
-style = "Book"
-
 [font.italic]
 family = "MesloLGM Nerd Font"
 style = "Italic"
@@ -23,5 +19,3 @@ style = "Regular"
 
 [window]
 opacity = 0.825
-
-book = 1.00
