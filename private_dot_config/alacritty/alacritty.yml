@@ -1,3 +1,5 @@
+## Deprecated. Alacritty now uses .toml file
+
 # window transparency
 window:
  opacity: 0.825
