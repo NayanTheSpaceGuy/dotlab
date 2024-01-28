@@ -197,7 +197,7 @@ mkdirg ()
 }
 
 # Goes up a specified number of directories  (i.e. up 4)
-up ()
+upd ()
 {
 	local d=""
 	limit=$1
@@ -213,14 +213,14 @@ up ()
 }
 
 #Automatically do an ls after each cd
-# cd ()
-# {
-# 	if [ -n "$1" ]; then
-# 		builtin cd "$@" && ls
-# 	else
-# 		builtin cd ~ && ls
-# 	fi
-# }
+cd ()
+{
+	if [ -n "$1" ]; then
+		builtin cd "$@" && ls -all
+	else
+		builtin cd ~ && ls -all
+	fi
+}
 
 # Returns the last 2 fields of the working directory
 pwdtail ()
