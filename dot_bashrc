@@ -2,8 +2,8 @@
 iatest=$(expr index "$-" i)
 
 # Load aliases
-if [ -f $HOME/.config/bash/aliases ]; then
-    . $HOME/.config/bash/aliases
+if [ -f $HOME/.config/bash/.bash_aliases ]; then
+    . $HOME/.config/bash/.bash_aliases
 fi
 
 #######################################################
@@ -110,34 +110,6 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 #######################################################
 # SPECIAL FUNCTIONS
 #######################################################
-
-# Use the best version of pico installed
-edit ()
-{
-	if [ "$(type -t jpico)" = "file" ]; then
-		# Use JOE text editor http://joe-editor.sourceforge.net/
-		jpico -nonotice -linums -nobackups "$@"
-	elif [ "$(type -t nano)" = "file" ]; then
-		nano -c "$@"
-	elif [ "$(type -t pico)" = "file" ]; then
-		pico "$@"
-	else
-		nvim "$@"
-	fi
-}
-sedit ()
-{
-	if [ "$(type -t jpico)" = "file" ]; then
-		# Use JOE text editor http://joe-editor.sourceforge.net/
-		sudo jpico -nonotice -linums -nobackups "$@"
-	elif [ "$(type -t nano)" = "file" ]; then
-		sudo nano -c "$@"
-	elif [ "$(type -t pico)" = "file" ]; then
-		sudo pico "$@"
-	else
-		sudo nvim "$@"
-	fi
-}
 
 # Extracts any archive(s) (if unp isn't installed)
 extract () {
@@ -546,9 +518,6 @@ case "$PROMPT_COMMAND" in
     *) PROMPT_COMMAND="_zoxide_hook${PROMPT_COMMAND:+;${PROMPT_COMMAND}}" ;;
 esac
 alias lookingglass="~/looking-glass-B5.0.1/client/build/looking-glass-client -F"
-
-## Added Aliases ##
-alias up="sudo pacman -Syyu && protonup && yay"
 
 #######################################################
 # Set the ultimate amazing command prompt
