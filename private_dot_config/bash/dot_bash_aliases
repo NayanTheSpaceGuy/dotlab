@@ -4,7 +4,7 @@
 # General Aliase
 alias vim='nvim -u $XDG_CONFIG_HOME/nvim/init.lua'
 alias cat='batcat'
-alias up="sudo pacman -Syyu && protonup && yay"
+alias up="yay && protonup"
 alias neo="neofetch"
 
 # Add an "alert" alias for long running commands.  Use like so:
