@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if [ -z "$STOW_FOLDERS" ]; then
+    STOW_FOLDERS="alacritty,bash,btop,fontconfig,hypr,librewolf,neofetch,nvim,pcmanfm,rofi,starship,Thunar,wal,waybar,wlogout,xdg-user-dirs"
+fi
+
+if [ -z "$DOTFILES" ]; then
+    DOTFILES="$HOME/personal/dotfiles"
+fi
+
+export STOW_FOLDERS
+export DOTFILES
+
+"$DOTFILES/install"

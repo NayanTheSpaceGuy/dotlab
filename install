@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Change directory to $DOTFILES
+pushd "$DOTFILES" || exit
+
+# Convert $STOW_FOLDERS into an array
+IFS=',' read -r -a folders <<< "$STOW_FOLDERS"
+
+# Iterate over each folder in the array
+for folder in "${folders[@]}"
+do
+    echo "stow $folder"
+    stow -D "$folder" -t "$HOME" 2>/dev/null # Hides bug warnings. I only did it because of steam.
+    stow "$folder" -t "$HOME" 2>/dev/null # Hides bug warnings. I only did it because of steam.
+done
+
+# Return to the previous directory
+popd || exit
