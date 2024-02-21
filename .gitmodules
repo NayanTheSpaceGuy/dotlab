@@ -1,6 +1,6 @@
 [submodule "personal"]
 	path = personal
-	url = git@github.com:TheSpaceGuy/dotfiles-personal.git
+	url = git@github.com:NayanTheSpaceGuy/dotfiles-personal.git
 [submodule "nvim/.config/nvim"]
 	path = nvim/.config/nvim
 	url = git@github.com:NayanTheSpaceGuy/neovimrc.git
