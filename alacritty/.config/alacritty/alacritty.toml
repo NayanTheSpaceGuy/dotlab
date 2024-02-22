@@ -6,7 +6,7 @@ import = [
 ]
 
 [font]
-size = 13.0
+size = 17.0
 
 [font.bold]
 family = "MesloLGM Nerd Font"
