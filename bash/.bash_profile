@@ -15,3 +15,5 @@ VIM="nvim"
 # Exporting env "variables
 export DOTFILES=$HOME/personal/dotfiles
 export GIT_EDITOR=$VIM
+
+if [ -e /home/thespaceguy/.nix-profile/etc/profile.d/nix.sh ]; then . /home/thespaceguy/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
