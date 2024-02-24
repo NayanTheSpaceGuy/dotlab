@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ -z "$STOW_FOLDERS" ]; then
-    STOW_FOLDERS="alacritty,bash,btop,fontconfig,hypr,librewolf,neofetch,nvim,pcmanfm,rofi,starship,Thunar,wal,waybar,wlogout,xdg-user-dirs"
+    STOW_FOLDERS="alacritty,bash,btop,fontconfig,hypr,librewolf,neofetch,nix,nvim,pcmanfm,rofi,starship,Thunar,wal,waybar,wlogout,xdg-user-dirs"
 fi
 
 if [ -z "$DOTFILES" ]; then
