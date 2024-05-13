@@ -6,7 +6,7 @@
 
 # Hyprland on login
 if [[ "$(tty)" = "/dev/tty1" ]]; then
-  Hyprland 
+	/usr/lib/plasma-dbus-run-session-if-needed /usr/bin/startplasma-wayland
 fi
 
 # Defaults
