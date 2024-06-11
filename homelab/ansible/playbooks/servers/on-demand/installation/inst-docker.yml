@@ -1,0 +1,47 @@
+- hosts: "{{ hosts }}"
+
+  become: yes
+  tasks:
+
+    - name: install prerequisites
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg2
+          - software-properties-common
+        update_cache: yes
+
+    - name: add docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: get debian version
+      command: ". /etc/os-release && echo $VERSION_CODENAME"
+      register: debian_version
+
+    - name: add docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ debian_version.stdout }} stable
+        state: present
+
+    - name: update apt cache
+      apt:
+        update_cache: yes
+
+    - name: install docker
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+          - docker-buildx-plugin
+        update_cache: yes
+
+    # add the current user to the docker group
+    - name: add user permissions
+      shell: "usermod -aG docker {{ ansible_env.SUDO_USER }}"
+

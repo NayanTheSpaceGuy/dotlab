@@ -1,0 +1,10 @@
+- hosts: "{{ hosts }}"
+
+  become: yes
+  tasks:
+
+  - name: install core packages
+    apt:
+      name:
+        - prometheus-node-exporter
+      update_cache: yes

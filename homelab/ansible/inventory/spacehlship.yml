@@ -1,0 +1,26 @@
+# VM hosts
+srv-setup:
+  hosts:
+    s1.trinity.spacehlship.xyz:
+
+srv-crit:
+  hosts:
+    c1.trinity.spacehlship.xyz:
+    c2.trinity.spacehlship.xyz:
+
+srv-prod:
+  hosts:
+    p1.trinity.spacehlship.xyz:
+
+srv-demo:
+  hosts:
+    d1.trinity.spacehlship.xyz:
+
+srv-nas:
+  hosts:
+    n1.trinity.spacehlship.xyz:
+
+# Bare metal hosts
+trinity-helios:
+  hosts:
+    helios.trinity.spacehlship.xyz:
