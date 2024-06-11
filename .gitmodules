@@ -1,6 +1,6 @@
 [submodule "dotfiles/nvim/.config/nvim"]
 	path = dotfiles/nvim/.config/nvim
 	url = git@github.com:NayanTheSpaceGuy/neovimrc.git
-[submodule "dotfiles-personal"]
-	path = dotfiles-personal
-	url = git@github.com:NayanTheSpaceGuy/dotfiles-personal.git
+[submodule "dotfiles-and-homelab-private"]
+	path = dotfiles-and-homelab-private
+	url = git@github.com:NayanTheSpaceGuy/dotfiles-and-homelab-private.git
