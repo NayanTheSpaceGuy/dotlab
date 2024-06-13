@@ -20,7 +20,7 @@ srv-nas:
   hosts:
     n1.trinity.spacehlship.xyz:
 
-# Bare metal hosts
+# Bare-metal hosts
 trinity-helios:
   hosts:
     helios.trinity.spacehlship.xyz:
