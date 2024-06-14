@@ -1,26 +1,36 @@
 # VM hosts
-srv-setup:
+srv-cockpit:
   hosts:
-    s1.trinity.spacehlship.xyz:
+    cockpit1.trinity.spacehlship.xyz:
 
 srv-crit:
   hosts:
-    c1.trinity.spacehlship.xyz:
-    c2.trinity.spacehlship.xyz:
+    sc1.trinity.spacehlship.xyz:
 
 srv-prod:
   hosts:
-    p1.trinity.spacehlship.xyz:
+    sp1.trinity.spacehlship.xyz:
+    sp2.trinity.spacehlship.xyz:
 
 srv-demo:
   hosts:
-    d1.trinity.spacehlship.xyz:
+    sd1.trinity.spacehlship.xyz:
+    sd2.trinity.spacehlship.xyz:
 
-srv-nas:
+nas-prod:
   hosts:
-    n1.trinity.spacehlship.xyz:
+    np1.trinity.spacehlship.xyz:
 
-# Bare-metal hosts
+# Bare metal hosts
 trinity-helios:
   hosts:
     helios.trinity.spacehlship.xyz:
+
+trinity-helios-ip:
+  hosts:
+    10.27.9.200:
+
+# Localhost
+localhost:
+  hosts:
+    localhost:
