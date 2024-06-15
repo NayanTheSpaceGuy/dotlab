@@ -6,52 +6,54 @@
 # Detect Linux distribution
 distribution ()
 {
-    local dtype="unknown"  # Default to unknown
-    # Use /etc/os-release for modern distro identification
-    if [ -r /etc/os-release ]; then
-	    source /etc/os-release
-        case $ID in
-            fedora|rhel|centos)
-                dtype="redhat"
-                ;;
-            sles|opensuse*)
-                dtype="suse"
-                ;;
-            ubuntu|debian)
-                dtype="debian"
-                ;;
-            gentoo)
-                dtype="gentoo"
-                ;;
-            arch)
-                dtype="arch"
-                ;;
-            slackware)
-                dtype="slackware"
-                ;;
-            *)
-                # If ID is not recognized, keep dtype as unknown
-                ;;
-        esac
-    fi
+        local dtype="unknown"  # Default to unknown
 
-    echo "$dtype"
+        # Use /etc/os-release for modern distro identification
+        if [ -r /etc/os-release ]; then
+            source /etc/os-release
+            case $ID in
+                fedora|rhel|centos)
+                    dtype="redhat"
+                    ;;
+                sles|opensuse*)
+                    dtype="suse"
+                    ;;
+                ubuntu|debian)
+                    dtype="debian"
+                    ;;
+                gentoo)
+                    dtype="gentoo"
+                    ;;
+                arch)
+                    dtype="arch"
+                    ;;
+                slackware)
+                    dtype="slackware"
+                    ;;
+                *)
+                    # If ID is not recognized, keep dtype as unknown
+                    ;;
+            esac
+        fi
+
+        echo "$dtype"
 }
 
 # Detect locale
 locale ()
 {
     local localetype="unknown" # Default to unknown
+
     if [ "$LANG" == "*.*8" ]; then
         localetype="UTF-8"
     else
         localetype="UTF"
-        echo "$localetype"
     fi
+
+    echo "$localetype"
 }
 
-
-if [ "$dtype" == "debian" ]; then
+if [ "$(distribution)" == "debian" ]; then
     echo "-------------"
     echo "Here we go..."
     echo "-------------"
@@ -73,7 +75,7 @@ if [ "$dtype" == "debian" ]; then
     git clone git@github.com:NayanTheSpaceGuy/dotfiles-and-homelab.git
 
     echo "Running the helios-setup ansible playbook..."
-    if [ "$localetype" == "UTF-8" ]; then
+    if [ "$(locale)" == "UTF-8" ]; then
     ansible-playbook \
     -i ~/helios-setup/dotfiles-and-homelab/homelab/ansible/inventory/spacehlship.yml \
     ~/helios-setup/dotfiles-and-homelab/homelab/ansible/playbooks/setup-proxmoxve/trinity-helios/helios-setup.yml
