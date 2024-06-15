@@ -50,5 +50,5 @@
   .~/helios-setup.sh
   ```
 
-#### 4. **Trigger Opentofu Workflow in GitLab CI**A
+#### 4. **Trigger Opentofu Workflow in GitLab CI**
   - Manually trigger the gitlab-mirror-and-ci workflow in the GitHub repo.
