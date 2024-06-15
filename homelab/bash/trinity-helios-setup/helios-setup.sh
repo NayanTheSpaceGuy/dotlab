@@ -1,19 +1,38 @@
 #!/bin/bash
 
 # Detect Linux distribution
-if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    ID=$NAME
-elif type lsb_release >/dev/null 2>&1; then
-    ID=$(lsb_release -si)
-elif [ -f /etc/lsb-release ]; then
-    . /etc/lsb-release
-    ID=$DISTRIB_ID
-else
-    ID='Unknown'
+local dtype="unknown"  # Default to unknown
+# Use /etc/os-release for modern distro identification
+if [ -r /etc/os-release ]; then
+	source /etc/os-release
+	case $ID in
+		fedora|rhel|centos)
+			dtype="redhat"
+			;;
+		sles|opensuse*)
+			dtype="suse"
+			;;
+		ubuntu|debian)
+			dtype="debian"
+			;;
+		gentoo)
+			dtype="gentoo"
+			;;
+		arch)
+			dtype="arch"
+			;;
+		slackware)
+			dtype="slackware"
+			;;
+		*)
+			# If ID is not recognized, keep dtype as unknown
+			;;
+	esac
 fi
 
-if [ "$ID" == "debian" ]; then
+echo $dtype
+
+if [ "$dtype" == "debian" ]; then
     echo "Here we go.."
     echo "Detected Debian distribution. Proceeding with the setup..."
 
