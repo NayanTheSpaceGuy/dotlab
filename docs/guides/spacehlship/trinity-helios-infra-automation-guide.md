@@ -47,7 +47,7 @@
   ```
   curl -O ~/helios-setup.sh https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/trinity-helios-setup/helios-setup.sh && \
   chmod +x ~/helios-setup.sh && \
-  .~/helios-setup.sh
+  ./helios-setup.sh
   ```
 
 #### 4. **Trigger Opentofu Workflow in GitLab CI**
