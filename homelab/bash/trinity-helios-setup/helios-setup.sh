@@ -3,19 +3,17 @@
 # Detect Linux distribution
 if [ -f /etc/os-release ]; then
     . /etc/os-release
-    OS=$NAME
+    ID=$NAME
 elif type lsb_release >/dev/null 2>&1; then
-    OS=$(lsb_release -si)
+    ID=$(lsb_release -si)
 elif [ -f /etc/lsb-release ]; then
     . /etc/lsb-release
-    OS=$DISTRIB_ID
-elif [ -f /etc/debian_version ]; then
-    OS='Debian'
+    ID=$DISTRIB_ID
 else
-    OS='Unknown'
+    ID='Unknown'
 fi
 
-if [ "$OS" == "Debian" ]; then
+if [ "$ID" == "debian" ]; then
     echo "Here we go.."
     echo "Detected Debian distribution. Proceeding with the setup..."
 
