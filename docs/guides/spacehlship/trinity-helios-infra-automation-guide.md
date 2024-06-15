@@ -8,6 +8,8 @@
 #### SSH Client (Preferably linux personal desktop or android with termux)
 - Another device with an SSH client installed.
 - This device must have the appropriate GitHub SSH keys. (This is usually done when authenticating with GitHub CLI)
+- This device must also have [SSH agent forwarding enabled.](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/using-ssh-agent-forwarding)
+  - _Note: This can create some security vulnerabilities. It should be enabled only temporarily for this installation process. You will be reminded to disable it when it is no longer required in this installation process._
 
 ## Steps:
 
@@ -46,6 +48,13 @@
 
   ```
   curl -O ~/helios-setup.sh https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/trinity-helios-setup/helios-setup.sh && \
+  chmod +x ~/helios-setup.sh && \
+  ./helios-setup.sh
+  ```
+  If the above command doesn't work, you can try using the following command which uses wget:
+
+  ```
+  wget https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/trinity-helios-setup/helios-setup.sh && \
   chmod +x ~/helios-setup.sh && \
   ./helios-setup.sh
   ```
