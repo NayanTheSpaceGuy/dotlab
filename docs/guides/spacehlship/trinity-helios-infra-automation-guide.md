@@ -7,9 +7,10 @@
 
 #### SSH Client (Preferably linux personal desktop or android with termux)
 - Another device with an SSH client installed.
-- This device must have the appropriate GitHub SSH keys. (This is usually done when authenticating with GitHub CLI)
-- This device must also have [SSH agent forwarding enabled.](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/using-ssh-agent-forwarding)
-  - _Note: This can create some security vulnerabilities. It should be enabled only temporarily for this installation process. You will be reminded to disable it when it is no longer required in this installation process._
+
+#### Keys (Keep these keys ready, these keys already exist and if you don't have these, you are not authorized)
+- GitHub Deploy key to clone git repo with ssh.
+- SOPS Private Key to decrypt files.
 
 ## Steps:
 
@@ -38,26 +39,18 @@
 #### 2. **Create Setup VM (Auomation supports only Debian distributions currently)**
   - Download the Debian netinst ISO with Proxmox VE web interface.
   - Create New 'Setup' VM.
-  - Select the Debian ISO as the installation media
+  - Select the Debian ISO as the installation media.
   - Start the VM and follow the on-screen instructions to install Debian.
   - This Setup VM is supposed to be deleted after the final installation step. You will be reminded to do so at that step, now continue.
 
 #### 3. **Run the Helios-Setup Bash Script**
   - Once the Setup VM is set up, SSH into the VM. (SSH is required for the next steps)
   - Run the following command to download and execute the helios-setup bash script:
-
   ```
-  curl -O ~/helios-setup.sh https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/trinity-helios-setup/helios-setup.sh && \
-  chmod +x ~/helios-setup.sh && \
-  ./helios-setup.sh
-  ```
-  If the above command doesn't work, you can try using the following command which uses wget:
-
-  ```
+  apt-get update && apt-get install -y wget && \
   wget https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/trinity-helios-setup/helios-setup.sh && \
   chmod +x ~/helios-setup.sh && \
   ./helios-setup.sh
   ```
-
 #### 4. **Trigger Opentofu Workflow in GitLab CI**
   - Manually trigger the gitlab-mirror-and-ci workflow in the GitHub repo.
