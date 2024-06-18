@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Copyright (c) 2024 NayanTheSpaceGuy
+# Author: NayanTheSpaceGuy (nayantsg@proton.me)
+# License: GPLv3.0+
+# https://github.com/NayanTheSpaceGuy/dotfiles-and-homelab/raw/main/LICENSE
+
 ####################
 # Special Functions
 ###################
