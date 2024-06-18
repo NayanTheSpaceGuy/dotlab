@@ -77,7 +77,7 @@ function header_info ()
 
 function base_installation ()
 {
-    echo "Updating package lists and dist-upgrading packages..."
+    echo "Updating package lists and dist-upgrading..."
     apt-get update
     apt-get dist-upgrade -y
 
@@ -87,6 +87,9 @@ function base_installation ()
     SOPS_LATEST_VERSION=$(curl -s "https://api.github.com/repos/getsops/sops/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')
     curl -Lo sops.deb "https://github.com/getsops/sops/releases/download/v${SOPS_LATEST_VERSION}/sops_${SOPS_LATEST_VERSION}_amd64.deb"
     apt --fix-broken install ./sops.deb
+
+    echo "Installing required ansible roles with ansible-galaxy..."
+    ansible-galaxy role install artis3n.tailscale
 
     echo "Cleaning up..."
     rm -rf sops.deb
@@ -173,7 +176,7 @@ function sops_setup ()
 
 function sops_decryption ()
 {
-    sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place ./secret.yaml
+    sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place ./helios-setup.yml
 }
 
 function run_ansible_playbook ()
@@ -188,7 +191,8 @@ function run_ansible_playbook ()
     else
         LANG=en_IN.UTF_8 ansible-playbook \
         -i ~/helios-setup/dotfiles-and-homelab/homelab/ansible/inventory/spacehlship.yml \
-        ~/helios-setup/dotfiles-and-homelab/homelab/ansible/playbooks/setup-proxmoxve/trinity-helios/helios-setup.yml
+        ~/helios-setup/dotfiles-and-homelab/homelab/ansible/playbooks/setup-proxmoxve/trinity-helios/helios-setup.yml \
+        --user root --ask-pass
     fi
 }
 
@@ -209,6 +213,7 @@ if [ "$(distribution)" == "debian" ]; then
     sops_setup
 
     echo "Creating new setup directory and navigating to it..."
+    rm -rf ~/helios-setup || return
     mkdir ~/helios-setup
     cd ~/helios-setup
 
