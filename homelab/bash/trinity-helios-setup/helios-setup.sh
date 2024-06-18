@@ -92,7 +92,7 @@ function base_installation ()
     rm -rf sops.deb
 }
 
-github_deploy_key_setup ()
+function github_deploy_key_setup ()
 {
     echo "Setting up GitHub Deploy Key..."
 
@@ -125,7 +125,7 @@ github_deploy_key_setup ()
     echo "Finished setting up GitHub Deploy Key"
 }
 
-sops_setup ()
+function sops_setup ()
 {
     echo "Setting up SOPS..."
 
@@ -171,12 +171,12 @@ sops_setup ()
     echo "Finished setting up SOPS"
 }
 
-sops_decryption ()
+function sops_decryption ()
 {
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place ./secret.yaml
 }
 
-run_ansible_playbook ()
+function run_ansible_playbook ()
 {
     echo "Proceeding with ansible for further setup..."
     echo "Running the helios-setup ansible playbook..."
