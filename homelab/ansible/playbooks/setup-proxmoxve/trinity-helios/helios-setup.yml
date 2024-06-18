@@ -1,0 +1,20 @@
+- hosts: "trinity-helios-ip"
+
+  tasks:
+    # Upgrade packages
+    - name: Updating apt packages list and dist-upgrading
+      ansible.builtin.apt:
+        upgrade: dist
+        update_cache: yes
+
+    - name: Installing tailscale
+      ansible.bultin.apt:
+        name: tailscale
+        state: present
+        update_cache: yes
+
+    - name: Connecting to tailscale network
+      ansible.builtin.include_role:
+        name: artis3n.tailscale
+      vars:
+        tailscale_authkey: ""
