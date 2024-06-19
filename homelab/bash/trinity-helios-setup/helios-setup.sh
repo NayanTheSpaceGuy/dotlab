@@ -8,8 +8,7 @@
 ####################
 # Special Functions
 ###################
-# Detect Linux distribution
-function distribution ()
+function detect_distribution ()
 {
         local dtype="unknown"  # Default to unknown
 
@@ -44,8 +43,7 @@ function distribution ()
         echo "$dtype"
 }
 
-# Detect locale
-function locale ()
+function detect_locale ()
 {
     local localetype="unknown" # Default to unknown
 
@@ -61,7 +59,6 @@ function locale ()
 ############
 # Functions
 ###########
-
 function header_info ()
 {
     clear
@@ -178,7 +175,7 @@ function sops_decryption ()
 {
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
-    -i "${HELIOS_SETUP_ANSIBLE_DIR}/vars/spacehlship/helios-setup-vars.env"
+    -i "${HELIOS_SETUP_ANSIBLE_DIR}/vars/spacehlship/helios-setup-secrets.env"
 }
 
 function run_ansible_playbook ()
@@ -186,7 +183,7 @@ function run_ansible_playbook ()
     echo "Proceeding with ansible for further setup..."
     echo "Running the helios-setup ansible playbook..."
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
-    if [ "$(locale)" == "UTF-8" ]; then
+    if [ "$(detect_locale)" == "UTF-8" ]; then
         ansible-playbook \
         -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.ini" \
         "${HELIOS_SETUP_ANSIBLE_DIR}/playbooks/setup-proxmoxve/trinity-helios/helios-setup.yml"
@@ -202,7 +199,7 @@ function run_ansible_playbook ()
 # Main
 ######
 set -eEuo pipefail
-if [ "$(distribution)" == "debian" ]; then
+if [ "$(detect_distribution)" == "debian" ]; then
     header_info
     echo "Detected Debian distribution. Proceeding with the setup..."
     echo "-------------"
