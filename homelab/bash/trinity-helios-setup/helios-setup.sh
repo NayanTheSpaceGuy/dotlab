@@ -101,14 +101,18 @@ function github_deploy_key_setup ()
         echo "The key file ~/.ssh/deploy-dotfiles-and-homelab-ntsg already exists."
         read -r -p "Do you want to overwrite it? (y/n) " overwrite
         if [ "$overwrite" == "y" ]; then
-            read -r -p "Enter the new value for the key: " new_deploy_key_value
+            echo "Enter the new value for the key (press Ctrl+D on a new line to finish):"
+            read -r -d '' new_deploy_key_value << EOM
+EOM
             echo "$new_deploy_key_value" > ~/.ssh/deploy-dotfiles-and-homelab-ntsg
             echo "Deploy key file updated with the new value."
         else
             echo "Keeping the existing deploy key file."
         fi
     else
-        read -r -p "Enter the value for the key: " deploy_key_value
+        echo "Enter the value for the key (press Ctrl+D on a new line to finish):"
+        read -r -d '' deploy_key_value << EOM
+EOM
         echo "$deploy_key_value" > ~/.ssh/deploy-dotfiles-and-homelab-ntsg
         echo "Deploy key file created with the provided value."
     fi
