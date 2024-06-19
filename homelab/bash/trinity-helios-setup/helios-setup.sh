@@ -176,7 +176,9 @@ function sops_setup ()
 
 function sops_decryption ()
 {
-    sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") --encrypted-regex '^(data|stringData)$' --in-place ./helios-setup.yml
+    HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
+    sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
+    -i "${HELIOS_SETUP_ANSIBLE_DIR}/vars/spacehlship/helios-setup-vars.env"
 }
 
 function run_ansible_playbook ()
@@ -186,12 +188,12 @@ function run_ansible_playbook ()
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
     if [ "$(locale)" == "UTF-8" ]; then
         ansible-playbook \
-        -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.yml" \
+        -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.ini" \
         "${HELIOS_SETUP_ANSIBLE_DIR}/playbooks/setup-proxmoxve/trinity-helios/helios-setup.yml"
     else
         LANG=en_IN.UTF_8 ansible-playbook \
-        -i ~/helios-setup/dotfiles-and-homelab/homelab/ansible/inventory/spacehlship.yml \
-        ~/helios-setup/dotfiles-and-homelab/homelab/ansible/playbooks/setup-proxmoxve/trinity-helios/helios-setup.yml \
+        -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.ini" \
+        "${HELIOS_SETUP_ANSIBLE_DIR}/playbooks/setup-proxmoxve/trinity-helios/helios-setup.yml" \
         --user root --ask-pass
     fi
 }

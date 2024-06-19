@@ -16,5 +16,5 @@
     - name: Connecting to tailscale network
       ansible.builtin.include_role:
         name: artis3n.tailscale
-      vars:
-        tailscale_authkey: ""
+      ansible.builtin.include_vars:
+        file: ./../../../vars/spacehlship/helios-setup-vars.env
