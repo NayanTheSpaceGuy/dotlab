@@ -17,4 +17,4 @@
       ansible.builtin.include_role:
         name: artis3n.tailscale
       ansible.builtin.include_vars:
-        file: ./../../../vars/spacehlship/helios-setup-vars.env
+        file: ./../../../vars/spacehlship/helios-setup-secrets.env
