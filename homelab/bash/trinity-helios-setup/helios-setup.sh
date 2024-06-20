@@ -74,9 +74,9 @@ function header_info ()
 
 function base_installation ()
 {
-    echo "Updating package lists and dist-upgrading..."
+    echo "Updating package lists and upgrading packages..."
     apt-get update
-    apt-get dist-upgrade -y
+    apt-get full-upgrade -y --auto-remove
 
     echo "Installing required packages (curl, sops, age, git, ansible)..."
     apt-get install -y curl age git ansible
