@@ -76,7 +76,7 @@ function base_installation ()
 {
     echo "Updating package lists and upgrading packages..."
     apt-get update
-    apt-get full-upgrade -y --auto-remove
+    apt-get upgrade -y
 
     echo "Installing required packages (curl, sops, age, git, ansible)..."
     apt-get install -y curl age git ansible
