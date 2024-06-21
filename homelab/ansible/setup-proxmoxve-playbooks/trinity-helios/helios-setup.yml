@@ -1,10 +1,14 @@
-- hosts: "trinity-helios-ip"
+- hosts: "localhost"
 
   tasks:
-    - name: Updating apt packages list and dist-upgrading
-      ansible.builtin.apt:
-        upgrade: dist
-        update_cache: yes
+    #PVE configs
+    #apt update
+    # deploy deb ci vm tmpl
+    # tailscale (sops)
+    #- name: Updating apt packages list and dist-upgrading
+    #  ansible.builtin.apt:
+    #    upgrade: dist
+    #    update_cache: yes
 
     - name: Installing tailscale
       ansible.bultin.apt:
@@ -12,6 +16,6 @@
         state: present
         update_cache: yes
 
-    - name: Connecting to tailscale network
-      ansible.builtin.include_role:
-        name: artis3n.tailscale
+    #- name: Connecting to tailscale network
+    #  ansible.builtin.include_role:
+    #  name: artis3n.tailscale
