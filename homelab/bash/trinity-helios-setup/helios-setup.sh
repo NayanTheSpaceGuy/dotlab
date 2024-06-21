@@ -112,7 +112,7 @@ function github_deploy_key_setup ()
     echo "-------------------------------"
 
     # Check if ~/.ssh/deploy-dotfiles-and-homelab-ntsg exists
-    if [ -f ~/.ssh/dotfiles-and-homelab-ntsg ]; then
+    if [ -f ~/.ssh/deploy-dotfiles-and-homelab-ntsg ]; then
         echo "The key file ~/.ssh/deploy-dotfiles-and-homelab-ntsg already exists."
         read -r -p "Do you want to overwrite it? (y/n) " overwrite
         if [ "$overwrite" == "y" ]; then
