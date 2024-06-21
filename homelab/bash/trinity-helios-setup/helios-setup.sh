@@ -217,7 +217,13 @@ function clone_repo ()
     cd ~/helios-setup
 
     echo "Cloning GitHub repository with HTTPS URL..."
-    git clone --recurse-submodules https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotfiles-and-homelab.git
+    git clone https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotfiles-and-homelab.git
+    cd dotfiles-and-homelab
+
+    echo "Initializing submodules..."
+    git submodule update --init --remote \
+        --url="https://NayanTheSpaceGuy:'$(github_pat)'@github.com/NayanTheSpaceGuy/dotfiles-and-homelab-private.git" \
+        dotfiles-and-homelab-private
 }
 
 function sops_decryption ()
