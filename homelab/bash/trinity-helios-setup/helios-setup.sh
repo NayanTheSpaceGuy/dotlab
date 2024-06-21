@@ -104,55 +104,45 @@ function base_installation ()
     rm -rf sops.deb
 }
 
-function github_deploy_key_setup ()
+function github_pat_setup ()
 {
     echo ""
-    echo "-------------------------------"
-    echo "Setting up GitHub Deploy Key..."
-    echo "-------------------------------"
+    echo "------------------------------------------"
+    echo "Setting up GitHub Personal Access Token..."
+    echo "------------------------------------------"
 
-    # Check if ~/.ssh/deploy-dotfiles-and-homelab-ntsg exists
-    if [ -f ~/.ssh/deploy-dotfiles-and-homelab-ntsg ]; then
-        echo "The key file ~/.ssh/deploy-dotfiles-and-homelab-ntsg already exists."
-        read -r -p "Do you want to overwrite it? (y/n) " overwrite
-        if [ "$overwrite" == "y" ]; then
-            echo "Enter the new value for the key (press Enter on a new line to finish):"
-            new_deploy_key_value=""
-            while IFS= read -r line; do
-                [[ -z "$line" ]] && break
-                new_deploy_key_value+="$line"$'\n'
-            done
-            echo "$new_deploy_key_value" > ~/.ssh/deploy-dotfiles-and-homelab-ntsg
-            chmod 600 ~/.ssh/deploy-dotfiles-and-homelab-ntsg
-            echo "GitHub Deploy key file updated with the new value."
-        else
-            echo "Keeping the existing GitHub deploy key file."
-        fi
-    else
-        echo "Enter the value for the key (press Enter on a new line to finish):"
-        deploy_key_value=""
-        while IFS= read -r line; do
-                [[ -z "$line" ]] && break
-                deploy_key_value+="$line"$'\n'
-        done
-        echo "$deploy_key_value" > ~/.ssh/deploy-dotfiles-and-homelab-ntsg
-        chmod 600 ~/.ssh/deploy-dotfiles-and-homelab-ntsg
-        echo "GitHub Deploy key file created with the provided value."
+    # Check and create ~/.github directory if it doesn't exist
+    if [ ! -d ~/.github ]; then
+        echo "Creating ~/.github directory..."
+        mkdir ~/.github
     fi
 
-    # Update the GitHub repository configuration in ~/.ssh/config
-    echo "Updating ~/.ssh/config with GitHub repository configuration..."
-    {
-        echo "Host github.com-dotfiles-and-homelab"
-        echo "    Hostname github.com"
-        echo "    IdentityFile=$HOME/.ssh/deploy-dotfiles-and-homelab-ntsg"
-    } > ~/.ssh/config
-    echo "GitHub repository configuration updated in ~/.ssh/config"
+    # Check if ~/.github/dotfiles-and-homelab-pat.txt exists
+    if [ -f ~/.github/dotfiles-and-homelab-pat.txt ]; then
+        echo "The Personal Access Token already exists."
+        read -r -p "Do you want to overwrite it? (y/n) " overwrite
+        if [ "$overwrite" == "y" ]; then
+            read -r -p "Enter the new value for PAT: " new_pat_key_value
+            echo "$new_pat_key_value" > ~/.github/dotfiles-and-homelab-pat.txt
+            chmod 600 ~/.github/dotfiles-and-homelab-pat.txt
+            echo "GitHub PAT updated with the new value."
+        else
+            echo "Keeping the existing GitHub PAT."
+        fi
+    else
+        read -r -p "Enter the value for PAT: " pat_key_value
+        echo "$pat_key_value" > ~/.github/dotfiles-and-homelab-pat.txt
+        chmod 600 ~/.github/dotfiles-and-homelab-pat.txt
+        echo "GitHub PAT created with the provided value."
+    fi
+
+    github_pat=$(cat ~/.github/dotfiles-and-homelab-pat.txt)
+    echo "$github_pat"
 
     echo ""
-    echo "-------------------------------------"
-    echo "Finished setting up GitHub Deploy Key"
-    echo "-------------------------------------"
+    echo "------------------------------------------------"
+    echo "Finished setting up GitHub Personal Access Token"
+    echo "------------------------------------------------"
 }
 
 function sops_setup ()
@@ -219,8 +209,8 @@ function clone_repo ()
     mkdir ~/helios-setup
     cd ~/helios-setup
 
-    echo "Cloning GitHub repository using SSH..."
-    git clone --recurse-submodules git@github.com-dotfiles-and-homelab:NayanTheSpaceGuy/dotfiles-and-homelab.git
+    echo "Cloning GitHub repository with HTTPS URL..."
+    git clone --recurse-submodules https://NayanTheSpaceGuy:"$(github_pat)".com/NayanTheSpaceGuy/dotfiles-and-homelab.git
 }
 
 function sops_decryption ()
@@ -270,7 +260,7 @@ if [ "$(detect_distribution)" == "debian" ]; then
     echo ""
 
     base_installation
-    github_deploy_key_setup
+    github_pat_setup
     sops_setup
     clone_repo
     sops_decryption
