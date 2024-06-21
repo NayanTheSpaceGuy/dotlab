@@ -74,27 +74,42 @@ function header_info ()
 
 function base_installation ()
 {
+    echo ""
+    echo "------------------------------------------------"
     echo "Updating package lists and upgrading packages..."
+    echo "------------------------------------------------"
     apt-get update
     apt-get upgrade -y
 
+    echo ""
+    echo "---------------------------------------------------------------"
     echo "Installing required packages (curl, sops, age, git, ansible)..."
+    echo "---------------------------------------------------------------"
     apt-get install -y curl age git ansible
 
     SOPS_LATEST_VERSION=$(curl -s "https://api.github.com/repos/getsops/sops/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')
     curl -Lo sops.deb "https://github.com/getsops/sops/releases/download/v${SOPS_LATEST_VERSION}/sops_${SOPS_LATEST_VERSION}_amd64.deb"
     apt --fix-broken install ./sops.deb
 
+    echo ""
+    echo "--------------------------------------------------------"
     echo "Installing required ansible roles with ansible-galaxy..."
+    echo "--------------------------------------------------------"
     ansible-galaxy role install artis3n.tailscale
 
+    echo ""
+    echo "--------------"
     echo "Cleaning up..."
+    echo "--------------"
     rm -rf sops.deb
 }
 
 function github_deploy_key_setup ()
 {
+    echo ""
+    echo "-------------------------------"
     echo "Setting up GitHub Deploy Key..."
+    echo "-------------------------------"
 
     # Check if ~/.ssh/deploy-dotfiles-and-homelab-ntsg exists
     if [ -f ~/.ssh/dotfiles-and-homelab-ntsg ]; then
@@ -134,12 +149,18 @@ function github_deploy_key_setup ()
     } > ~/.ssh/config
     echo "GitHub repository configuration updated in ~/.ssh/config"
 
+    echo ""
+    echo "-------------------------------------"
     echo "Finished setting up GitHub Deploy Key"
+    echo "-------------------------------------"
 }
 
 function sops_setup ()
 {
+    echo ""
+    echo "------------------"
     echo "Setting up SOPS..."
+    echo "------------------"
 
     # Check and create ~/.sops directory if it doesn't exist
     if [ ! -d ~/.sops ]; then
@@ -180,11 +201,35 @@ function sops_setup ()
 
     source ~/.bashrc
 
+    echo ""
+    echo "------------------------"
     echo "Finished setting up SOPS"
+    echo "------------------------"
+}
+
+function clone_repo ()
+{
+    echo ""
+    echo "----------------------"
+    echo "Cloning GitHub Repo..."
+    echo "----------------------"
+
+    echo "Creating new setup directory and navigating to it..."
+    rm -rf ~/helios-setup || return
+    mkdir ~/helios-setup
+    cd ~/helios-setup
+
+    echo "Cloning GitHub repository using SSH..."
+    git clone --recurse-submodules git@github.com-dotfiles-and-homelab:NayanTheSpaceGuy/dotfiles-and-homelab.git
 }
 
 function sops_decryption ()
 {
+    echo ""
+    echo "-------------------------------"
+    echo "Decrypting secrets with SOPS..."
+    echo "-------------------------------"
+
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
     -i "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/group_vars/trinity-helios-ip/secrets.yml"
@@ -193,7 +238,12 @@ function sops_decryption ()
 function run_ansible_playbook ()
 {
     echo "Proceeding with ansible for further setup..."
+
+    echo ""
+    echo "--------------------------------------------"
     echo "Running the helios-setup ansible playbook..."
+    echo "--------------------------------------------"
+
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
     if [ "$(detect_locale)" == "UTF-8" ]; then
         ansible-playbook \
@@ -222,18 +272,11 @@ if [ "$(detect_distribution)" == "debian" ]; then
     base_installation
     github_deploy_key_setup
     sops_setup
-
-    echo "Creating new setup directory and navigating to it..."
-    rm -rf ~/helios-setup || return
-    mkdir ~/helios-setup
-    cd ~/helios-setup
-
-    echo "Cloning GitHub repository using SSH..."
-    git clone --recurse-submodules git@github.com-dotfiles-and-homelab:NayanTheSpaceGuy/dotfiles-and-homelab.git
+    clone_repo
     sops_decryption
-
     run_ansible_playbook
 
+    echo ""
     echo "helios-setup bash script and ansible playbook completed successfully!"
 else
     header_info
