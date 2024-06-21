@@ -136,13 +136,16 @@ function github_pat_setup ()
         echo "GitHub PAT created with the provided value."
     fi
 
-    github_pat=$(cat ~/.github/dotfiles-and-homelab-pat.txt)
-    echo "$github_pat"
-
     echo ""
     echo "------------------------------------------------"
     echo "Finished setting up GitHub Personal Access Token"
     echo "------------------------------------------------"
+}
+
+function github_pat ()
+{
+    github_pat_value=$(cat ~/.github/dotfiles-and-homelab-pat.txt)
+    echo "$github_pat_value"
 }
 
 function sops_setup ()
@@ -210,7 +213,7 @@ function clone_repo ()
     cd ~/helios-setup
 
     echo "Cloning GitHub repository with HTTPS URL..."
-    git clone --recurse-submodules https://NayanTheSpaceGuy:"$(github_pat)".com/NayanTheSpaceGuy/dotfiles-and-homelab.git
+    git clone --recurse-submodules https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotfiles-and-homelab.git
 }
 
 function sops_decryption ()
@@ -253,11 +256,10 @@ function run_ansible_playbook ()
 set -eEuo pipefail
 if [ "$(detect_distribution)" == "debian" ]; then
     header_info
-    echo "Detected Debian distribution. Proceeding with the setup..."
     echo "-------------"
     echo "Here we go..."
     echo "-------------"
-    echo ""
+    echo "Detected Debian distribution. Proceeding with the setup..."
 
     base_installation
     github_pat_setup
