@@ -70,6 +70,9 @@ function header_info ()
     echo "\_| |_/\____/ \_____/ \___/  \___/ \____/           \____/ \____/   \_/   \___/ \_|     "
     echo ""
     echo "Loading..."
+    echo "-------------"
+    echo "Here we go..."
+    echo "-------------"
 }
 
 function base_installation ()
@@ -256,9 +259,6 @@ function run_ansible_playbook ()
 set -eEuo pipefail
 if [ "$(detect_distribution)" == "debian" ]; then
     header_info
-    echo "-------------"
-    echo "Here we go..."
-    echo "-------------"
     echo "Detected Debian distribution. Proceeding with the setup..."
 
     base_installation
@@ -272,5 +272,7 @@ if [ "$(detect_distribution)" == "debian" ]; then
     echo "helios-setup bash script and ansible playbook completed successfully!"
 else
     header_info
+    echo ""
+    echo "Uh-oh. Your distribution is currently not supported."
     echo "This script is only intended to run on Debian distributions currently."
 fi
