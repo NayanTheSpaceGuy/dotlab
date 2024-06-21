@@ -108,6 +108,7 @@ function github_deploy_key_setup ()
                 new_deploy_key_value+="$line"$'\n'
             done
             echo "$new_deploy_key_value" > ~/.ssh/deploy-dotfiles-and-homelab-ntsg
+            chmod 600 ~/.ssh/deploy-dotfiles-and-homelab-ntsg
             echo "GitHub Deploy key file updated with the new value."
         else
             echo "Keeping the existing GitHub deploy key file."
@@ -120,6 +121,7 @@ function github_deploy_key_setup ()
                 deploy_key_value+="$line"$'\n'
         done
         echo "$deploy_key_value" > ~/.ssh/deploy-dotfiles-and-homelab-ntsg
+        chmod 600 ~/.ssh/deploy-dotfiles-and-homelab-ntsg
         echo "GitHub Deploy key file created with the provided value."
     fi
 
