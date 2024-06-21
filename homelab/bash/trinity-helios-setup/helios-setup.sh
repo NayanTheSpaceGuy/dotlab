@@ -126,7 +126,7 @@ function github_pat_setup ()
         echo "The Personal Access Token already exists."
         read -r -p "Do you want to overwrite it? (y/n) " overwrite
         if [ "$overwrite" == "y" ]; then
-            read -r -p "Enter the new value for PAT: " new_pat_key_value
+            read -r -p -s "Enter the new value for PAT: " new_pat_key_value
             echo "$new_pat_key_value" > ~/.github/dotfiles-and-homelab-pat.txt
             chmod 600 ~/.github/dotfiles-and-homelab-pat.txt
             echo "GitHub PAT updated with the new value."
@@ -134,7 +134,7 @@ function github_pat_setup ()
             echo "Keeping the existing GitHub PAT."
         fi
     else
-        read -r -p "Enter the value for PAT: " pat_key_value
+        read -r -p -s "Enter the value for PAT: " pat_key_value
         echo "$pat_key_value" > ~/.github/dotfiles-and-homelab-pat.txt
         chmod 600 ~/.github/dotfiles-and-homelab-pat.txt
         echo "GitHub PAT created with the provided value."
@@ -170,14 +170,14 @@ function sops_setup ()
         echo "The key file ~/.sops/dotfiles-and-homelab-key.txt already exists."
         read -r -p "Do you want to overwrite it? (y/n) " overwrite
         if [ "$overwrite" == "y" ]; then
-            read -r -p "Enter the new value for the key: " new_sops_key_value
+            read -r -p -s "Enter the new value for the key: " new_sops_key_value
             echo "$new_sops_key_value" > ~/.sops/dotfiles-and-homelab-key.txt
             echo "SOPS key file updated with the new value."
         else
             echo "Keeping the existing SOPS key file."
         fi
     else
-        read -r -p "Enter the value for the key: " sops_key_value
+        read -r -p -s "Enter the value for the key: " sops_key_value
         echo "$sops_key_value" > ~/.sops/dotfiles-and-homelab-key.txt
         echo "SOPS key file created with the provided value."
     fi
