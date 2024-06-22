@@ -11,7 +11,7 @@
     #    update_cache: yes
 
     - name: Installing tailscale
-      ansible.bultin.apt:
+      ansible.builtin.apt:
         name: tailscale
         state: present
         update_cache: yes
