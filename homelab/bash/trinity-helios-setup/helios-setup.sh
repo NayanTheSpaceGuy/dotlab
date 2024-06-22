@@ -5,9 +5,9 @@
 # License: GPLv3.0+
 # https://github.com/NayanTheSpaceGuy/dotfiles-and-homelab/raw/main/LICENSE
 
-####################
-# Special Functions
-###################
+############
+# Functions
+###########
 function detect_distribution ()
 {
         local dtype="unknown"  # Default to unknown
@@ -43,10 +43,6 @@ function detect_distribution ()
         echo "$dtype"
 }
 
-
-############
-# Functions
-###########
 function header_info ()
 {
     clear
@@ -128,10 +124,7 @@ function github_pat_setup ()
         echo "GitHub PAT created with the provided value."
     fi
 
-    echo ""
-    echo "------------------------------------------------"
     echo "Finished setting up GitHub Personal Access Token"
-    echo "------------------------------------------------"
 }
 
 function github_pat ()
@@ -196,10 +189,7 @@ function sops_setup ()
 
     source ~/.bashrc
 
-    echo ""
-    echo "------------------------"
     echo "Finished setting up SOPS"
-    echo "------------------------"
 }
 
 function clone_repo ()
@@ -225,7 +215,7 @@ function clone_repo ()
     touch .gitmodules
     rm -rf .git/modules
 
-    echo "Adding submodules..."
+    echo "Adding submodules with HTTPS URL..."
     git submodule add -f \
     https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotfiles-and-homelab-private.git \
     dotfiles-and-homelab-private
