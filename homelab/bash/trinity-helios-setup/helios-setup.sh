@@ -170,14 +170,24 @@ function sops_setup ()
         echo "The key file ~/.sops/dotfiles-and-homelab-key.txt already exists."
         read -r -p "Do you want to overwrite it? (y/n) " overwrite
         if [ "$overwrite" == "y" ]; then
-            read -r -s -p "Enter the new value for the key: " new_sops_key_value
+            echo "Enter the new value for the key (press Enter on a new line to finish):"
+            new_sops_key_value=""
+            while IFS= read -r -s line; do
+                [[ -z "$line" ]] && break
+                new_sops_key_value+="$line"$'\n'
+            done
             echo "$new_sops_key_value" > ~/.sops/dotfiles-and-homelab-key.txt
             echo "SOPS key file updated with the new value."
         else
             echo "Keeping the existing SOPS key file."
         fi
     else
-        read -r -s -p "Enter the value for the key: " sops_key_value
+        echo "Enter the value for the key (press Enter on a new line to finish):"
+        sops_key_value=""
+        while IFS= read -r -s line; do
+                [[ -z "$line" ]] && break
+                sops_key_value+="$line"$'\n'
+        done
         echo "$sops_key_value" > ~/.sops/dotfiles-and-homelab-key.txt
         echo "SOPS key file created with the provided value."
     fi
@@ -236,6 +246,7 @@ function sops_decryption ()
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
     -i "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/group_vars/trinity-helios-ip/secrets.yml"
+    echo "Finished decrypting secrets with SOPS"
 }
 
 function run_ansible_playbook ()
