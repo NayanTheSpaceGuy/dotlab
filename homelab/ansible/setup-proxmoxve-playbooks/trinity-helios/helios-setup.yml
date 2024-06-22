@@ -41,8 +41,6 @@
         - name: Remove Proxmox subscription popup nag
           ansible.builtin.shell: |
             sed -Ezi.bak "s/(function\(orig_cmd\) \{)/\1\n\torig_cmd\(\);\n\treturn;/g" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
-          args:
-            warn: false
           changed_when: false
 
         - name: Restart pveproxy service
