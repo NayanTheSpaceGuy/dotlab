@@ -51,12 +51,10 @@
             state: present
             force: yes
             update_cache: yes
-          when: nag_disabled.changed
 
-        - name: Display success message
+        - name: Subscription nag disabled message
           ansible.builtin.debug:
-            msg: "Disabled subscription nag (Remember to delete browser cache)"
-          when: nag_disabled.changed
+            msg: "Subscription nag is disabled (Remember to delete browser cache, if you are still getting it)"
 
         - name: Check if pve-ha-lrm is active
           ansible.builtin.command: systemctl is-active pve-ha-lrm
