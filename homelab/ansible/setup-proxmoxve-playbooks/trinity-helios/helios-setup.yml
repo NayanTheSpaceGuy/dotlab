@@ -106,6 +106,7 @@
 
         - name: Apply sysctl changes
           ansible.builtin.command: sysctl -p /etc/sysctl.d/99-tailscale.conf
+          changed_when: false
 
         - name: Connect to Tailscale
           ansible.builtin.include_role:
