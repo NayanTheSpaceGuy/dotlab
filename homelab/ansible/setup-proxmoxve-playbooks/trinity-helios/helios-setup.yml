@@ -1,28 +1,109 @@
-- hosts: "localhost"
+- hosts: "trinity-helios-ip"
 
   tasks:
-    #PVE configs
-    #apt update
-    # deploy deb ci vm tmpl
-    # tailscale (sops)
-    #- name: Updating apt packages list and dist-upgrading
-    #  ansible.builtin.apt:
-    #    upgrade: dist
-    #    update_cache: yes
 
-    - name: Add Tailscale's package signing key and repository
-      ansible.builtin.shell: >
-        curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg
-        | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
-        && curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list
-        | tee /etc/apt/sources.list.d/tailscale.list
+    - name: Configure Proxmox VE
+      block:
+        - name: Correct Proxmox VE Sources
+          ansible.builtin.copy:
+            content: |
+              deb http://deb.debian.org/debian bookworm main contrib
+              deb http://deb.debian.org/debian bookworm-updates main contrib
+              deb http://security.debian.org/debian-security bookworm-security main contrib
+            dest: /etc/apt/sources.list
+            owner: root
+            group: root
+            mode: '0644'
 
-    - name: Install tailscale
+        - name: Remove pve-enterprise repo
+          ansible.builtin.copy:
+            content: |
+              # deb https://enterprise.proxmox.com/debian/pve bookworm pve-enterprise
+            dest: /etc/apt/sources.list.d/pve-enterprise.list
+            owner: root
+            group: root
+            mode: '0644'
+
+        - name: Add pve-no-subscription repo
+          ansible.builtin.apt_repository:
+            repo: "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription"
+            state: present
+            update_cache: yes
+
+        - name: Disable Proxmox subscription nag
+          ansible.builtin.replace:
+            path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+            regexp: "data.status !== 'Active'"
+            replace: "data.status == 'NoMoreNagging'"
+          register: nag_disabled
+
+        - name: Reinstall proxmox-widget-toolkit
+          ansible.builtin.apt:
+            name: proxmox-widget-toolkit
+            state: present
+            force: yes
+          when: nag_disabled.changed
+
+        - name: Display success message
+          ansible.builtin.debug:
+            msg: "Disabled subscription nag (Remember to delete browser cache)"
+          when: nag_disabled.changed
+
+        - name: Check if pve-ha-lrm is active
+          ansible.builtin.command: systemctl is-active pve-ha-lrm
+          register: ha_status
+          changed_when: false
+          failed_when: false
+
+        - name: Disable and stop HA services
+          ansible.builtin.systemd:
+            name: "{{ item }}"
+            state: stopped
+            enabled: false
+          loop:
+            - pve-ha-lrm
+            - pve-ha-crm
+            - corosync
+          when: ha_status.rc == 0
+
+    - name: Update Proxmox VE
       ansible.builtin.apt:
-        name: tailscale
-        state: present
         update_cache: yes
+        upgrade: dist
+        force_apt_get: yes
 
-    #- name: Connecting to tailscale network
-    #  ansible.builtin.include_role:
-    #  name: artis3n.tailscale
+    - name: Set up Tailscale
+      block:
+        - name: Add Tailscale's package signing key and repository
+          ansible.builtin.shell: >
+            curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg
+            | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+            && curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list
+            | tee /etc/apt/sources.list.d/tailscale.list
+          changed_when: false
+
+        - name: Install tailscale
+          ansible.builtin.apt:
+            name: tailscale
+            state: present
+            update_cache: yes
+
+        - name: Add IP forwarding configuration
+          ansible.builtin.lineinfile:
+            path: /etc/sysctl.d/99-tailscale.conf
+            line: "{{ item }}"
+            create: yes
+          loop:
+            - "net.ipv4.ip_forward = 1"
+            - "net.ipv6.conf.all.forwarding = 1"
+
+        - name: Apply sysctl changes
+          ansible.builtin.command: sysctl -p /etc/sysctl.d/99-tailscale.conf
+
+        - name: Connect to Tailscale
+          ansible.builtin.include_role:
+            name: artis3n.tailscale
+          vars:
+            tailscale_authkey: "{{ tailscale_authkey }}"
+            tailscale_tags: ['deviceofspace']
+            tailscale_args: "--advertise-routes=10.27.9.0/24 --ssh"
