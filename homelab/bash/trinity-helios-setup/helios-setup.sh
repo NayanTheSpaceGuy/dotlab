@@ -256,6 +256,7 @@ function sops_decryption ()
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
     -i "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/group_vars/trinity-helios-ip/secrets.yml"
+
     echo "Finished decrypting secrets with SOPS"
 }
 
@@ -272,9 +273,10 @@ function run_ansible_playbook ()
     if [ "$(detect_locale)" == "UTF-8" ]; then
         ansible-playbook \
         -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.ini" \
-        "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/helios-setup.yml"
+        "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/helios-setup.yml" \
+        --user root --ask-pass
     else
-        LANG=en_IN.UTF_8 ansible-playbook \
+        LANG=en_IN.utf8 ansible-playbook \
         -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.ini" \
         "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/helios-setup.yml" \
         --user root --ask-pass
