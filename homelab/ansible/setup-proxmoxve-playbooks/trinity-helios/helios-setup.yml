@@ -113,6 +113,6 @@
           ansible.builtin.include_role:
             name: artis3n.tailscale
           vars:
-            tailscale_authkey: "{{ tailscale_authkey }}"
+            tailscale_authkey: "{{ tailscale_authkey_var }}"
             tailscale_tags: ['deviceofspace']
             tailscale_args: "--advertise-routes=10.27.9.0/24 --ssh"
