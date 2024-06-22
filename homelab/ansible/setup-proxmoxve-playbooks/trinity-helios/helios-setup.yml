@@ -10,7 +10,14 @@
     #    upgrade: dist
     #    update_cache: yes
 
-    - name: Installing tailscale
+    - name: Add Tailscale's package signing key and repository
+      ansible.builtin.shell: >-
+        curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg \|
+        tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null &&
+        curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list \|
+        tee /etc/apt/sources.list.d/tailscale.list
+
+    - name: Install tailscale
       ansible.builtin.apt:
         name: tailscale
         state: present
