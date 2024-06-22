@@ -69,10 +69,10 @@ function base_installation ()
     apt-get upgrade -y
 
     echo ""
-    echo "---------------------------------------------------------------"
-    echo "Installing required packages (curl, sops, age, git, ansible)..."
-    echo "---------------------------------------------------------------"
-    apt-get install -y curl age git ansible
+    echo "------------------------------------------------------------------------"
+    echo "Installing required packages (curl, sops, age, git, ansible, sshpass)..."
+    echo "------------------------------------------------------------------------"
+    apt-get install -y curl age git ansible sshpass
 
     SOPS_LATEST_VERSION=$(curl -s "https://api.github.com/repos/getsops/sops/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')
     curl -Lo sops.deb "https://github.com/getsops/sops/releases/download/v${SOPS_LATEST_VERSION}/sops_${SOPS_LATEST_VERSION}_amd64.deb"
