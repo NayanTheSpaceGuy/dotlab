@@ -90,6 +90,7 @@ function base_installation ()
     echo "Cleaning up..."
     echo "--------------"
     rm -rf sops.deb
+    echo "Removed installation files that are no longer required."
 }
 
 function github_pat_setup ()
@@ -124,7 +125,7 @@ function github_pat_setup ()
         echo "GitHub PAT created with the provided value."
     fi
 
-    echo "Finished setting up GitHub Personal Access Token"
+    echo "Finished setting up GitHub Personal Access Token."
 }
 
 function github_pat ()
@@ -173,10 +174,12 @@ function sops_setup ()
         echo "SOPS key file created with the provided value."
     fi
 
+    source ~/.bashrc
+
     # Check if SOPS_AGE_KEY_FILE is set correctly
     SOPS_AGE_KEY_FILE_NEW_VALUE="$HOME/.sops/dotfiles-and-homelab-key.txt"
     if [ "${SOPS_AGE_KEY_FILE:-}" != "$SOPS_AGE_KEY_FILE_NEW_VALUE" ]; then
-        echo "Setting SOPS_AGE_KEY_FILE environment variable"
+        echo "Setting up SOPS_AGE_KEY_FILE environment variable."
         export SOPS_AGE_KEY_FILE="$SOPS_AGE_KEY_FILE_NEW_VALUE"
         if grep -q "^export SOPS_AGE_KEY_FILE=" "$HOME/.bashrc"; then
             sed -i "s|^export SOPS_AGE_KEY_FILE=.*|export SOPS_AGE_KEY_FILE=$SOPS_AGE_KEY_FILE_NEW_VALUE|" "$HOME/.bashrc"
@@ -184,12 +187,12 @@ function sops_setup ()
             echo "export SOPS_AGE_KEY_FILE=$SOPS_AGE_KEY_FILE_NEW_VALUE" >> "$HOME/.bashrc"
         fi
     else
-        echo "SOPS_AGE_KEY_FILE environment variable already set correctly"
+        echo "SOPS_AGE_KEY_FILE environment variable already set correctly."
     fi
 
     source ~/.bashrc
 
-    echo "Finished setting up SOPS"
+    echo "Finished setting up SOPS."
 }
 
 function clone_repo ()
@@ -235,7 +238,7 @@ function sops_decryption ()
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
     -i "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/group_vars/trinity-helios-ip/secrets.yml"
 
-    echo "Finished decrypting secrets with SOPS"
+    echo "Finished decrypting secrets with SOPS."
 }
 
 function run_ansible_playbook ()
