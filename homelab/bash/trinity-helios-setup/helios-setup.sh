@@ -230,10 +230,20 @@ function clone_repo ()
     git clone https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotfiles-and-homelab.git
     cd dotfiles-and-homelab
 
+    echo "Removing all existing submodules..."
+    rm -rf dotfiles-and-homelab-private
+    rm -rf dotfiles/nvim/.config/nvim
+    rm -f .gitmodules
+    touch .gitmodules
+    rm -rf .git/modules
+
+    echo "Adding submodules..."
+    git submodule add -f \
+    https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotfiles-and-homelab-private.git \
+    dotfiles-and-homelab-private
+
     echo "Initializing submodules..."
-    git submodule update --init --remote \
-        --url="https://NayanTheSpaceGuy:'$(github_pat)'@github.com/NayanTheSpaceGuy/dotfiles-and-homelab-private.git" \
-        dotfiles-and-homelab-private
+    git submodule update --init --recursive dotfiles-and-homelab-private
 }
 
 function sops_decryption ()
