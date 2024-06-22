@@ -43,18 +43,6 @@ function detect_distribution ()
         echo "$dtype"
 }
 
-function detect_locale ()
-{
-    local localetype="unknown" # Default to unknown
-
-    if [ "$LANG" == "*.*8" ]; then
-        localetype="UTF-8"
-    else
-        localetype="UTF"
-    fi
-
-    echo "$localetype"
-}
 
 ############
 # Functions
@@ -270,17 +258,10 @@ function run_ansible_playbook ()
     echo "--------------------------------------------"
 
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
-    if [ "$(detect_locale)" == "UTF-8" ]; then
-        ansible-playbook \
-        -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.ini" \
-        "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/helios-setup.yml" \
-        --user root --ask-pass
-    else
-        LANG=en_IN.utf8 ansible-playbook \
-        -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.ini" \
-        "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/helios-setup.yml" \
-        --user root --ask-pass
-    fi
+    ansible-playbook \
+    -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.ini" \
+    "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/helios-setup.yml" \
+    --user root --ask-pass
 }
 
 #######
