@@ -274,6 +274,7 @@ if [ "$(detect_distribution)" == "debian" ]; then
 
     echo ""
     echo "helios-setup bash script and ansible playbook completed successfully!"
+    echo "Reboot trinity-helios for some changes to take effect."
 else
     header_info
     echo ""
