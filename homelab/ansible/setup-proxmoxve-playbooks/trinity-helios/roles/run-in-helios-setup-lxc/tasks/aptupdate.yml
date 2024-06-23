@@ -1,0 +1,6 @@
+---
+- name: Update Proxmox VE
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: dist
+    force_apt_get: yes
