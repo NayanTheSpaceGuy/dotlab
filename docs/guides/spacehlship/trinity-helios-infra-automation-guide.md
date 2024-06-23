@@ -43,12 +43,13 @@
 
 #### 1.3 **Setup Misc**
   - Setup SMTP Notifications.
+  - Set Next free VMID range to 1001 in Datacenter > options.
 
 #### 2. **Create Setup LXC (Auomation supports only Debian distributions currently)**
   - Download the Debian Bookworm LXC template with Proxmox VE web interface.
   - Create New 'helios-setup-lxc' CT.
   - Select the Debian Bookworm LXC template, Static IPv4 and DHCP IPv6. Confirm and Create the LXC.
-  - Start the LXC and login with root.(Proxmox Web Interface Shell is preferred over SSH)
+  - Start the LXC and login with root. (Proxmox Web Interface Shell is preferred over SSH)
   - This Setup LXC is supposed to be deleted after the final installation step.
     You will be reminded to do so at that step, now continue.
 
@@ -57,9 +58,9 @@
     Run the following command to download and execute the helios-setup bash script:
     ```
     apt-get update && apt-get install -y wget && \
-    wget https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/trinity-helios-setup/helios-setup.sh && \
-    chmod +x ~/helios-setup.sh && \
-    ./helios-setup.sh
+    wget https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/setup-trinity-helios/run-in-helios-setup-lxc.sh && \
+    chmod +x ~/run-in-helios-setup-lxc.sh && \
+    ./run-in-helios-setup-lxc.sh
     ```
   - Enter the GitHub Personal Access Token, when asked. (The input will be hidden for security reasons)
   - Enter the SOPS Public and Private Key line by line, when asked. (The input will be hidden for security reasons)
