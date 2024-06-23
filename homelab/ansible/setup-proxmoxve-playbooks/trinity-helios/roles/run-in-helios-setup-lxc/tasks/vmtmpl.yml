@@ -11,10 +11,16 @@
 
 - name: Create Debian VM template
   block:
+    - name: Check if the downloaded image exists
+      ansible.builtin.stat:
+        path: "/var/lib/vz/isos/{{ image_name }}"
+      register: image_file
+
     - name: Download Debian cloud image
       ansible.builtin.get_url:
         url: "{{ image_url }}"
         dest: "/var/lib/vz/isos/{{ image_name }}"
+      when: not image_file.stat.exists
 
     - name: Create new virtual machine
       ansible.builtin.shell: >
@@ -26,7 +32,7 @@
 
     - name: Attach the new disk to the VM
       ansible.builtin.shell: >
-        qm set {{ vm_id }} --scsihw virtio-scsi-pci --scsi0 {{ storage }}:base-{{ vm_id }}-disk-0
+        qm set {{ vm_id }} --scsihw virtio-scsi-pci --scsi0 {{ storage }}:vm-{{ vm_id }}-disk-0
 
     - name: Add cloud init drive
       ansible.builtin.shell: >
