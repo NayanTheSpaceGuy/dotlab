@@ -20,9 +20,9 @@
       ansible.builtin.shell: >
         qm create {{ vm_id }} --memory 2048 --core 2 --name {{ vm_name }} --net0 virtio,bridge=vmbr0
 
-    - name: Import the downloaded Ubuntu disk
+    - name: Import the downloaded Debian disk
       ansible.builtin.shell: >
-        qm disk import {{ vm_id }} {{ image_name }} {{ storage }}
+        qm disk import {{ vm_id }} /var/lib/vz/isos/{{ image_name }} {{ storage }}
 
     - name: Attach the new disk to the VM
       ansible.builtin.shell: >
