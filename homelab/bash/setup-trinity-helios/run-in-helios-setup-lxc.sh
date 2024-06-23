@@ -253,7 +253,7 @@ function run_ansible_playbook ()
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
     ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
     -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.ini" \
-    "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/helios-setup.yml" \
+    "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/run-in-helios-setup-lxc.yml" \
     --user root --ask-pass
 }
 
