@@ -4,3 +4,6 @@
 [submodule "dotfiles-and-homelab-private"]
 	path = dotfiles-and-homelab-private
 	url = git@github.com:NayanTheSpaceGuy/dotfiles-and-homelab-private.git
+[submodule "gitlab-submodules/dotfiles-and-homelab-private"]
+	path = gitlab-submodules/dotfiles-and-homelab-private
+	url = git@gitlab.com:spacehlship/dotfiles-and-homelab-private-gitlab.git
