@@ -1,0 +1,3 @@
+---
+apt_upgrade_type: "dist"
+yum_update_state: "latest"

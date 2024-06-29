@@ -1,0 +1,4 @@
+---
+- import_tasks: ../../../tasks/tailscale/install_tailscale.yml
+- import_tasks: ../../../tasks/tailscale/configure_sys_for_tailscale.yml
+- import_tasks: ../../../tasks/tailscale/connect_tailscale.yml

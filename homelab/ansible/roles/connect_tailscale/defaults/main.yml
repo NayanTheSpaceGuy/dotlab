@@ -1,0 +1,3 @@
+---
+tailscale_tags: "['deviceofspace']"
+tailscale_args: "--accept-routes --ssh"

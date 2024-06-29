@@ -1,6 +1,6 @@
 galaxy_info:
   author: NayanTheSpaceGuy (nayantsg@proton.me)
-  description: Ansible role for NayanTheSpaceGuy's Proxmox Setup
+  description: Ansible role for updating packages
 
   license: GNU GPLv3.0+
 

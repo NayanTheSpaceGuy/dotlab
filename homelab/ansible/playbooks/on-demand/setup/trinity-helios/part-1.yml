@@ -1,0 +1,23 @@
+- hosts: "{{ hosts }}"
+
+  roles:
+    - role: "proxmoxve_common"
+
+    - role: "correct_package_manager_sources"
+
+    - role: "update_packages"
+      vars:
+        apt_upgrade_type: "dist"
+
+    - role: "connect_tailscale"
+      vars:
+        tailscale_tags: "['deviceofspace']"
+        tailscale_args: "--accept-routes --ssh"
+
+    - role: "proxmoxve_vm_templates"
+      vars:
+        vm_id: 21000
+        vm_name: "deb-bookworm-cloud"
+        image_url: "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-genericcloud-amd64-20240507-1740.raw"
+        image_name: "debian-12-genericcloud-amd64-20240507-1740"
+        storage: "local-zfs"

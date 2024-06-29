@@ -1,0 +1,17 @@
+---
+- name: Check if pve-ha-lrm is active
+  ansible.builtin.command: systemctl is-active pve-ha-lrm
+  register: ha_status
+  changed_when: false
+  failed_when: false
+
+- name: Disable and stop HA services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  loop:
+    - pve-ha-lrm
+    - pve-ha-crm
+    - corosync
+  when: ha_status.rc == 0

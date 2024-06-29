@@ -1,0 +1,10 @@
+---
+- name: Check if linux distribution is supported
+  ansible.builtin.fail:
+    msg: "Unsupported linux distribution detected: {{ ansible_distribution }}"
+  when: ansible_distribution not in ['Debian', 'Ubuntu']
+
+- name: Include distribution package manager sources correction task
+  ansible.builtin.include_tasks:
+    file: "../../../tasks/package_managers/correct_debian_{{ ansible_pkg_mgr }}_sources.yml"
+  when: ansible_distribution == "Debian"

@@ -9,6 +9,12 @@
   ansible.builtin.set_fact:
     vm_tmpl_exists: "{{ deb_vm_tmpl_check.stdout | bool }}"
 
+- name: Delete existing VM template if it exists
+  ansible.builtin.shell: >
+    qm destroy {{ vm_id }}
+  when: vm_tmpl_exists
+  ignore_errors: true
+
 - name: Create Debian VM template
   block:
     - name: Check if the downloaded image exists
@@ -65,4 +71,14 @@
     - name: Convert to template
       ansible.builtin.shell: >
         qm template {{ vm_id }}
-  when: not vm_tmpl_exists
+
+- name: Verify VM template exists
+  ansible.builtin.shell: |
+    pvesh get /cluster/resources --type vm | awk '{print $2}' | grep -q "qemu/{{ vm_id }}$" && echo true || echo false
+  register: final_vm_tmpl_check
+  changed_when: false
+
+- name: Fail if VM template does not exist
+  ansible.builtin.fail:
+    msg: "VM template {{ vm_id }} was not created successfully"
+  when: not (final_vm_tmpl_check.stdout | bool)

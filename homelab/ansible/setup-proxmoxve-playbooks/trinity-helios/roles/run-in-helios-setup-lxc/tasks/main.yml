@@ -1,5 +1,0 @@
----
-- include_tasks: pveconf.yml
-- include_tasks: aptupdate.yml
-- include_tasks: tailscale.yml
-- include_tasks: vmtmpl.yml

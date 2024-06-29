@@ -1,0 +1,6 @@
+---
+- name: Update yum packages
+  ansible.builtin.yum:
+    name: '*'
+    state: "{{ yum_update_state }}"
+    update_cache: yes

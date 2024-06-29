@@ -1,0 +1,2 @@
+---
+- import_tasks: ../../../tasks/proxmoxve/create_vm_template.yml

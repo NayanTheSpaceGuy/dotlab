@@ -1,0 +1,15 @@
+---
+- name: Add pve-no-subscription repo
+  ansible.builtin.apt_repository:
+    repo: "deb http://download.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-no-subscription"
+    state: present
+
+- name: Add ceph-quincy no-subscription repo
+  ansible.builtin.apt_repository:
+    repo: "deb http://download.proxmox.com/debian/ceph-quincy {{ ansible_distribution_release }} no-subscription"
+    state: present
+
+- name: Add ceph-reef no-subscription repo
+  ansible.builtin.apt_repository:
+    repo: "deb http://download.proxmox.com/debian/ceph-reef {{ ansible_distribution_release }} no-subscription"
+    state: present

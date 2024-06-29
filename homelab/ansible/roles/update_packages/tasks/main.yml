@@ -1,0 +1,10 @@
+---
+- name: Check if package manager is supported
+  ansible.builtin.fail:
+    msg: "Unsupported package manager detected: {{ ansible_pkg_mgr }}"
+  when: ansible_pkg_mgr not in ['apt', 'yum']
+
+- name: Include package manager update task
+  ansible.builtin.include_tasks:
+    file: "../../../tasks/package_managers/update_{{ ansible_pkg_mgr }}_packages.yml"
+  when: ansible_pkg_mgr in ['apt', 'yum']

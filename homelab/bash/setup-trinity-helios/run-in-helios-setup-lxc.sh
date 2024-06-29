@@ -236,7 +236,7 @@ function sops_decryption ()
 
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
-    -i "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/group_vars/trinity-helios-ip/secrets.yml"
+    -i "${HELIOS_SETUP_ANSIBLE_DIR}/group_vars/tailscale-auth/secrets.yml"
 
     echo "Finished decrypting secrets with SOPS."
 }
@@ -251,9 +251,10 @@ function run_ansible_playbook ()
     echo "--------------------------------------------"
 
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
+    cd "$HELIOS_SETUP_ANSIBLE_DIR"
     ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
-    -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/spacehlship.ini" \
-    "${HELIOS_SETUP_ANSIBLE_DIR}/setup-proxmoxve-playbooks/trinity-helios/run-in-helios-setup-lxc.yml" \
+    -i "inventory/spacehlship.ini" \
+    "playbooks/on-demand/setup/trinity-helios/part-1.yml" \
     --user root --ask-pass
 }
 
