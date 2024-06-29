@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: trinity-helios-ip
 
 - name: Set variables and import part-1 playbook
   import_playbook: ../../on-demand/setup/trinity-helios/part-1.yml
