@@ -4,5 +4,5 @@
     name: artis3n.tailscale
   vars:
     tailscale_authkey: "{{ tailscale_authkey_var }}"
-    tailscale_tags: "{{ tailscale_tags }}"
-    tailscale_args: "{{ tailscale_args }}"
+    tailscale_tags: "{{ tailscale_tags_var }}"
+    tailscale_args: "{{ tailscale_args_var }}"
