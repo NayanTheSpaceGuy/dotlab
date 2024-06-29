@@ -1,7 +1,0 @@
----
-- hosts: trinity-helios
-  vars:
-    tailscale_args: "--advertise-routes=10.27.9.0/24 --accept-routes --ssh"
-
-- name: Import part-1 playbook
-  import_playbook: ../../on-demand/setup/trinity-helios/part-1.yml

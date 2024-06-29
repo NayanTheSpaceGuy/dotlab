@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+
+- name: Set variables and import part-1 playbook
+  import_playbook: ../../on-demand/setup/trinity-helios/part-1.yml
+  vars:
+    desired_hosts: "trinity-helios"
+    desired_apt_upgrade_type: "dist"
+    desired_tailscale_tags: "['deviceofspace']"
+    desired_tailscale_args: "--advertise-routes=10.27.9.0/24 --accept-routes --ssh"
+    desired_vm_id: "21000"
+    desired_vm_name: "deb-bookworm-cloud"
+    desired_image_url: "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-genericcloud-amd64-20240507-1740.raw"
+    desired_image_name: "debian-12-genericcloud-amd64-20240507-1740"
+    desired_storage: "local-zfs"
