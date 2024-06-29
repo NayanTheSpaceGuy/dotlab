@@ -13,7 +13,7 @@
       vars:
         tailscale_tags_var: "{{ desired_tailscale_tags }}"
         tailscale_args_var: "{{ desired_tailscale_args }}"
-        tailscale_authkey_var: "{{ enter_tailscale_authkey }}"
+        tailscale_authkey_var: "{{ desired_tailscale_authkey }}"
 
     - role: "proxmoxve_vm_templates"
       vars:

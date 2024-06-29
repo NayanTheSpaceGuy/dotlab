@@ -13,4 +13,4 @@
     desired_image_url: "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-genericcloud-amd64-20240507-1740.raw"
     desired_image_name: "debian-12-genericcloud-amd64-20240507-1740"
     desired_storage: "local-zfs"
-    enter_tailscale_authkey: "{{ secret_tailscale_authkey }}"
+    desired_tailscale_authkey: "{{ secret_tailscale_authkey }}"
