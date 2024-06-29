@@ -1,37 +1,37 @@
 # VM hosts
-srv-cockpit:
+srv_cockpit:
   hosts:
     cockpit1.trinity.spacehlship.xyz
 
-srv-crit:
+srv_crit:
   hosts:
     sc1.trinity.spacehlship.xyz
 
-srv-prod:
+srv_prod:
   hosts:
     sp1.trinity.spacehlship.xyz
     sp2.trinity.spacehlship.xyz
 
-srv-demo:
+srv_demo:
   hosts:
     sd1.trinity.spacehlship.xyz
     sd2.trinity.spacehlship.xyz
 
-nas-prod:
+nas_prod:
   hosts:
     np1.trinity.spacehlship.xyz
 
 # Bare metal hosts
-trinity-helios:
+trinity_helios:
   hosts:
     helios.trinity.spacehlship.xyz
 
-trinity-helios-ip:
+trinity_helios_ip:
   hosts:
     10.27.9.200
 
 # Tailscale auth
-tailscale-auth:
+tailscale_auth:
   children:
-    trinity-helios:
-    trinity-helios-ip:
+    trinity_helios:
+    trinity_helios_ip:

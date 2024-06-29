@@ -254,7 +254,7 @@ function run_ansible_playbook ()
     cd "$HELIOS_SETUP_ANSIBLE_DIR"
     ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
     "playbooks/scheduled/helios-cockpit-1-semaphore/setup-trinity-helios-part-1.yml" \
-    --user root --ask-pass -e "desired_hosts=trinity-helios-ip"
+    --user root --ask-pass -e "desired_hosts=trinity_helios_ip"
 }
 
 #######
