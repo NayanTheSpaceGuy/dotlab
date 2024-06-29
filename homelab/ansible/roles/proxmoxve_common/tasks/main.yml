@@ -2,4 +2,4 @@
 - import_tasks: ../../../tasks/proxmoxve/remove_pve_enterprise_repos.yml
 - import_tasks: ../../../tasks/proxmoxve/add_pve_nosubs_repos.yml
 - import_tasks: ../../../tasks/proxmoxve/remove_pve_subscription_nag.yml
-- import_tasks: ../../../tasks/proxmoxve/disable_ha_when_not_in_use.yml
+- import_tasks: ../../../tasks/proxmoxve/disable_ha.yml
