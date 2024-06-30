@@ -1,0 +1,77 @@
+---
+- name: Check if role exists and create if not
+  block:
+    - name: Check if role exists
+      ansible.builtin.shell: pveum role list | awk '{print $2}' | grep -q "OpentofuProv$" && echo true || echo false
+      register: role_exists_check
+      changed_when: false
+
+    - name: Set fact for role existence
+      ansible.builtin.set_fact:
+        role_exists: "{{ role_exists_check.stdout | bool }}"
+
+    - name: Create role if it does not exists
+      ansible.builtin.command: pveum role add OpentofuProv
+      when: not role_exists
+
+    - name: Modify role priveleges
+      ansible.builtin.command: >
+        pveum role modify OpentofuProv -privs "
+        Datastore.AllocateSpace
+        Datastore.Audit
+        Pool.Allocate
+        Sys.Audit
+        Sys.Console
+        Sys.Modify
+        VM.Allocate
+        VM.Audit
+        VM.Clone
+        VM.Config.CDROM
+        VM.Config.Cloudinit
+        VM.Config.CPU
+        VM.Config.Disk
+        VM.Config.HWType
+        VM.Config.Memory
+        VM.Config.Network
+        VM.Config.Options
+        VM.Migrate
+        VM.Monitor
+        VM.PowerMgmt
+        SDN.Use
+        "
+
+- name: Check if group exists and create if not
+  block:
+    - name: Check if group exists
+      ansible.builtin.shell: pveum group list | awk '{print $2}' | grep -q "opentofugroup$" && echo true || echo false
+      register: group_exists_check
+      changed_when: false
+
+    - name: Set fact for group existence
+      ansible.builtin.set_fact:
+        group_exists: "{{ group_exists_check.stdout | bool }}"
+
+    - name: Create group if it does not exists
+      ansible.builtin.command: pveum group add opentofugroup -comment "Opentofu provider"
+      when: not group_exists
+
+    - name: Assign role to group
+      ansible.builtin.command: pveum acl modify / -group opentofugroup -role OpentofuProv
+
+- name: Check if user exists and create if not
+  block:
+    - name: Check if user exists
+      ansible.builtin.shell: pveum user list | awk '{print $2}' | grep -q "opentofu@pve$" && echo true || echo false
+      register: user_exists_check
+      changed_when: false
+
+    - name: Set fact for user existence
+      ansible.builtin.set_fact:
+        user_exists: "{{ user_exists_check.stdout | bool }}"
+
+    - name: Create user if it does not exists
+      ansible.builtin.command: pveum user add opentofu@pve -comment "IaC" -password {{ th_tofu_password }}
+      when: not user_exists
+
+    - name: Add user to group
+      ansible.builtin.command: pveum user modify opentofu@pve -group opentofugroup

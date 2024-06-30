@@ -2,6 +2,8 @@
 
   roles:
     - role: "proxmoxve_common"
+      vars:
+        th_tofu_password: "{{ desired_th_tofu_password }}"
 
     - role: "correct_package_manager_sources"
 

@@ -14,3 +14,4 @@
     desired_image_name: "debian-12-genericcloud-amd64-20240507-1740"
     desired_storage: "local-zfs"
     desired_tailscale_authkey: "{{ secret_tailscale_authkey }}"
+    desired_th_tofu_password: "{{ secret_th_tofu_password }}"

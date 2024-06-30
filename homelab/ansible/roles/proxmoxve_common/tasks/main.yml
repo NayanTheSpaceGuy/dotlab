@@ -3,3 +3,4 @@
 - import_tasks: ../../../tasks/proxmoxve/add_pve_nosubs_repos.yml
 - import_tasks: ../../../tasks/proxmoxve/remove_pve_subscription_nag.yml
 - import_tasks: ../../../tasks/proxmoxve/disable_ha.yml
+- import_tasks: ../../../tasks/proxmoxve/add_pve_users_and_groups.yml
