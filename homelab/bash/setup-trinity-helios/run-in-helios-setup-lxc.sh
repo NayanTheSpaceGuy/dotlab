@@ -248,7 +248,7 @@ function sops_decryption ()
 
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
-    -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/group_vars/tailscale_auth/secrets.yml"
+    -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/group_vars/trinity_helios_parent/secrets.yml"
 
     echo "Finished decrypting secrets with SOPS."
 }
