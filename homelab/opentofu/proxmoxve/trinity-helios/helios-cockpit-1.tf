@@ -3,8 +3,8 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
   desc        = "Helios Cockpit 1"
   agent       = 1
   target_node = "trinity-helios"
-  qemu_os     = "other"  # default other
-  bios        = "seabios"  # default=ovmf
+  qemu_os     = "other"   # default other
+  bios        = "seabios" # default=ovmf
 
   define_connection_info = false
 
@@ -17,7 +17,7 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
   # -- boot process
   onboot           = true
   startup          = ""
-  automatic_reboot = false  # refuse auto-reboot when changing a setting
+  automatic_reboot = false # refuse auto-reboot when changing a setting
 
   cores   = 2
   sockets = 1
@@ -29,7 +29,7 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
     model  = "virtio"
   }
 
-  scsihw = "virtio-scsi-pci"  # default virtio-scsi-pci
+  scsihw = "virtio-scsi-pci" # default virtio-scsi-pci
 
   # disk {
   #     storage  = "pv1"
@@ -41,7 +41,6 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
   # -- lifecycle
   lifecycle {
     ignore_changes = [
-      disk,
       vm_state
     ]
   }
