@@ -1,9 +1,9 @@
 ---
 - name: Add Tailscale's package signing key and repository
   ansible.builtin.shell: >
-    curl -fsSL https://pkgs.tailscale.com/stable/debian/{{ ansible_distribtution_release }}.noarmor.gpg
+    curl -fsSL https://pkgs.tailscale.com/stable/debian/{{ ansible_distribution_release }}.noarmor.gpg
     | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
-    && curl -fsSL https://pkgs.tailscale.com/stable/debian/{{ ansible_distribtution_release }}.tailscale-keyring.list
+    && curl -fsSL https://pkgs.tailscale.com/stable/debian/{{ ansible_distribution_release }}.tailscale-keyring.list
     | tee /etc/apt/sources.list.d/tailscale.list
   changed_when: false
 
