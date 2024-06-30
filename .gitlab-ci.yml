@@ -1,0 +1,20 @@
+variables:
+  TF_CLI_ARGS_init: "-lockfile=readonly"
+  TF_VAR_pve_api_url: ${PV_API_URL}
+  TF_VAR_pve_user: ${PVE_USER}
+  TF_VAR_pve_password: ${PVE_PASSWORD}
+
+include:
+  - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@0.21.0
+    inputs:
+      version: 0.21.0
+      opentofu_version: 1.7.1
+      root_dir: opentofu/cloudflare/spacehlship
+      state_name: latest_trinity_helios_pve
+      auto_apply: true
+
+stages: [validate, test, build, deploy]
+
+plan:
+  before_script:
+    - apk add jq
