@@ -33,7 +33,7 @@
           - "{{ tailscale_dns_name.stdout }}.key"
       register: existing_certs
 
-    - name: Remove old certificate files if only one file exists
+    - name: Remove old certificate file if only one file exists
       ansible.builtin.file:
         path: "/etc/tailscale_ssl/{{ item }}"
         state: absent
