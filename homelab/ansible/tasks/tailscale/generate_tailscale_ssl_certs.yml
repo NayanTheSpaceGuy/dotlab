@@ -1,0 +1,45 @@
+---
+- name: Set up Tailscale certificate for Proxmox
+  block:
+    - name: Ensure /etc/tailscale_ssl directory exists
+      ansible.builtin.file:
+        path: /etc/tailscale_ssl
+        state: directory
+        mode: '0755'
+
+    - name: Get Tailscale DNS name
+      ansible.builtin.shell: tailscale status --json | jq '.Self.DNSName | .[:-1]' -r
+      register: tailscale_dns_name
+      changed_when: false
+
+    - name: Check if certificate files exist
+      ansible.builtin.stat:
+        path: "/etc/tailscale_ssl/{{ item }}"
+      loop:
+        - "{{ tailscale_dns_name.stdout }}.crt"
+        - "{{ tailscale_dns_name.stdout }}.key"
+      register: cert_files
+
+    - name: Initialize Tailscale ssl certs generation
+      block:
+        - name: Remove old certificate files if only one exists
+          ansible.builtin.file:
+            path: "/etc/tailscale_ssl/{{ item }}"
+            state: absent
+          loop:
+          - "{{ tailscale_dns_name.stdout }}.crt"
+          - "{{ tailscale_dns_name.stdout }}.key"
+          when: cert_files.results | map(attribute='stat.exists') | list | count == 1
+
+        - name: Generate Tailscale certificate
+          ansible.builtin.shell: |
+            cd /etc/tailscale_ssl && tailscale cert {{ tailscale_dns_name.stdout }}
+          register: cert_generation
+          changed_when: cert_generation.rc == 0
+
+        - name: Set Proxmox certificate
+          ansible.builtin.command: >
+            pvenode cert set "/etc/tailscale_ssl/{{ tailscale_dns_name.stdout }}.crt" "/etc/tailscale_ssl/{{ tailscale_dns_name.stdout }}.key" --force --restart
+          register: pve_cert_set
+          changed_when: pve_cert_set.rc == 0
+      when: cert_files.results | map(attribute='stat.exists') | list | count < 2

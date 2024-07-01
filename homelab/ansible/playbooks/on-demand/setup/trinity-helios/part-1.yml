@@ -17,6 +17,8 @@
         tailscale_args_var: "{{ desired_tailscale_args }}"
         tailscale_authkey_var: "{{ desired_tailscale_authkey }}"
 
+    - role: "tailscale_ssl_certs"
+
     - role: "proxmoxve_vm_templates"
       vars:
         vm_id: "{{ desired_vm_id }}"

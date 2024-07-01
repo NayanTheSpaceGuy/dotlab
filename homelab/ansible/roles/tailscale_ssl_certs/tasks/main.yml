@@ -1,0 +1,2 @@
+---
+- import_tasks: ../../../tasks/tailscale/generate_tailscale_ssl_certs.yml
