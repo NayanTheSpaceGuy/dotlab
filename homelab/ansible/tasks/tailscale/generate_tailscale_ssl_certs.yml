@@ -7,6 +7,18 @@
         state: directory
         mode: '0755'
 
+    - name: Check if jq is installed
+      ansible.builtin.command: which jq
+      register: jq_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: Install jq
+      ansible.builtin.apt:
+        name: jq
+        state: present
+      when: jq_check.rc != 0
+
     - name: Get Tailscale DNS name
       ansible.builtin.shell: tailscale status --json | jq '.Self.DNSName | .[:-1]' -r
       register: tailscale_dns_name
