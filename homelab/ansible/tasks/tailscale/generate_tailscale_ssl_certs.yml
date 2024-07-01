@@ -12,6 +12,7 @@
       register: jq_check
       ignore_errors: yes
       changed_when: false
+      failed_when: false
 
     - name: Install jq
       ansible.builtin.apt:
@@ -20,38 +21,37 @@
       when: jq_check.rc != 0
 
     - name: Get Tailscale DNS name
-      ansible.builtin.shell: tailscale status --json | jq '.Self.DNSName | .[:-1]' -r
+      ansible.builtin.shell: tailscale status --json | jq -r '.Self.DNSName | .[:-1]'
       register: tailscale_dns_name
       changed_when: false
 
-    - name: Check if certificate files exist
-      ansible.builtin.stat:
+    - name: Count existing certificate files
+      ansible.builtin.find:
+        paths: /etc/tailscale_ssl
+        patterns:
+          - "{{ tailscale_dns_name.stdout }}.crt"
+          - "{{ tailscale_dns_name.stdout }}.key"
+      register: existing_certs
+
+    - name: Remove old certificate files if only one file exists
+      ansible.builtin.file:
         path: "/etc/tailscale_ssl/{{ item }}"
+        state: absent
       loop:
         - "{{ tailscale_dns_name.stdout }}.crt"
         - "{{ tailscale_dns_name.stdout }}.key"
-      register: cert_files
+      when: existing_certs.matched == 1
 
-    - name: Initialize Tailscale ssl certs generation
-      block:
-        - name: Remove old certificate files if only one exists
-          ansible.builtin.file:
-            path: "/etc/tailscale_ssl/{{ item }}"
-            state: absent
-          loop:
-          - "{{ tailscale_dns_name.stdout }}.crt"
-          - "{{ tailscale_dns_name.stdout }}.key"
-          when: cert_files.results | map(attribute='stat.exists') | list | count == 1
+    - name: Generate Tailscale certificate
+      ansible.builtin.shell: |
+        cd /etc/tailscale_ssl && tailscale cert {{ tailscale_dns_name.stdout }}
+      register: cert_generation
+      changed_when: cert_generation.rc == 0
+      when: existing_certs.matched < 2
 
-        - name: Generate Tailscale certificate
-          ansible.builtin.shell: |
-            cd /etc/tailscale_ssl && tailscale cert {{ tailscale_dns_name.stdout }}
-          register: cert_generation
-          changed_when: cert_generation.rc == 0
-
-        - name: Set Proxmox certificate
-          ansible.builtin.command: >
-            pvenode cert set "/etc/tailscale_ssl/{{ tailscale_dns_name.stdout }}.crt" "/etc/tailscale_ssl/{{ tailscale_dns_name.stdout }}.key" --force --restart
-          register: pve_cert_set
-          changed_when: pve_cert_set.rc == 0
-      when: cert_files.results | map(attribute='stat.exists') | list | count < 2
+    - name: Set Proxmox certificate
+      ansible.builtin.command: >
+        pvenode cert set "/etc/tailscale_ssl/{{ tailscale_dns_name.stdout }}.crt" "/etc/tailscale_ssl/{{ tailscale_dns_name.stdout }}.key" --force --restart
+      register: pve_cert_set
+      changed_when: pve_cert_set.rc == 0
+      when: existing_certs.matched < 2
