@@ -1,4 +1,5 @@
 variables:
+  TF_CLI_ARGS_init: "-lockfile=readonly"
   TF_VAR_pve_api_url: ${PVE_API_URL}
   TF_VAR_pve_user: ${PVE_USER}
   TF_VAR_pve_password: ${PVE_PASSWORD}
