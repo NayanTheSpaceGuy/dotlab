@@ -14,7 +14,7 @@ include:
       state_name: latest_trinity_helios_pve
       auto_apply: true
 
-stages: [setup, validate, test, build, deploy]
+stages: [validate, test, build, deploy]
 
 plan:
   before_script:
