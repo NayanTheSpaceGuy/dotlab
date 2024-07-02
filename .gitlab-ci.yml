@@ -18,8 +18,7 @@ stages: [validate, test, build, deploy]
 
 plan:
   before_script:
-    - apk add jq curl iptables ip6tables
-    - curl -fsSL https://tailscale.com/install.sh | sh
+    - apk add --no-cache tailscale jq curl iptables ip6tables
     - tailscaled --tun=userspace-networking --socks5-server=localhost:1055 &
     - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-routes
     - sleep 5  # Give tailscale a moment to establish the connection
