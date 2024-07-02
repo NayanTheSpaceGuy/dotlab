@@ -33,17 +33,14 @@ tailscale_setup:
 stages: [setup, validate, test, build, deploy]
 
 plan:
-  stage: validate
   needs:
     - tailscale_setup
   before_script:
-    - apk add jq
-    - |
-      TAILSCALE_INTERFACE=$(ip -o link show | awk -F': ' '{print $2}' | grep -i tailscale)
-      echo "Tailscale interface: ${TAILSCALE_INTERFACE}"
-      if command -v systemd-resolve &> /dev/null; then
-        systemd-resolve --set-dns=100.100.100.100 --interface=${TAILSCALE_INTERFACE}
-      else
-        echo "nameserver 100.100.100.100" | tee -a /etc/resolv.conf
-      fi
-      cat /etc/resolv.conf
+    - apk add jq iproute2 bind-tools curl
+    - echo "Network interfaces:"
+    - ip link show
+    - echo "Current DNS configuration:"
+    - cat /etc/resolv.conf
+    - echo "Attempting to resolve Tailscale and external hostnames:"
+    - nslookup trinity-helios.penguin-tegus.ts.net || true
+    - nslookup gitlab.com || true
