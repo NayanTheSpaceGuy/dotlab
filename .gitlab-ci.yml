@@ -37,5 +37,7 @@ plan:
     - tailscale_setup
   before_script:
     - apk add jq
-    - echo "nameserver 100.100.100.100" >> /etc/resolv.conf
+    - TAILSCALE_INTERFACE=$(ip -o link show | awk -F': ' '{print $2}' | grep -i tailscale)
+    - echo "Tailscale interface: ${TAILSCALE_INTERFACE}"
+    - systemd-resolve --set-dns=100.100.100.100 --interface=${TAILSCALE_INTERFACE}
     - cat /etc/resolv.conf
