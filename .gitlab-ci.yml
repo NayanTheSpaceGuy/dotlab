@@ -37,10 +37,12 @@ plan:
     - tailscale_setup
   before_script:
     - apk add jq iproute2 bind-tools curl
-    - echo "Network interfaces:"
-    - ip link show
-    - echo "Current DNS configuration:"
+    - echo "Adding Tailscale DNS server"
+    - echo "nameserver 100.100.100.100" >> /etc/resolv.conf
+    - echo "Updated DNS configuration:"
     - cat /etc/resolv.conf
     - echo "Attempting to resolve Tailscale and external hostnames:"
     - nslookup trinity-helios.penguin-tegus.ts.net || true
     - nslookup gitlab.com || true
+    - echo "Tailscale status:"
+    - tailscale status || echo "Tailscale not available"
