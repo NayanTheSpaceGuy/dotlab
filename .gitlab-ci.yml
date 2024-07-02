@@ -24,5 +24,6 @@ plan:
     - sleep 5  # Give tailscale a moment to establish the connection
     - echo "Tailscale status:"
     - tailscale status
+    - echo "nameserver 100.100.100.100" >> /etc/resolv.conf
     - echo "Attempting to resolve Tailscale hostname:"
     - nslookup trinity-helios.penguin-tegus.ts.net
