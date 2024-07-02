@@ -38,11 +38,12 @@ plan:
     - tailscale_setup
   before_script:
     - apk add jq
-    - TAILSCALE_INTERFACE=$(ip -o link show | awk -F': ' '{print $2}' | grep -i tailscale)
-    - echo "Tailscale interface: ${TAILSCALE_INTERFACE}"
-    - if command -v systemd-resolve &> /dev/null; then
-        systemd-resolve --set-dns=100.100.100.100 --interface=${TAILSCALE_INTERFACE};
+    - |
+      TAILSCALE_INTERFACE=$(ip -o link show | awk -F': ' '{print $2}' | grep -i tailscale)
+      echo "Tailscale interface: ${TAILSCALE_INTERFACE}"
+      if command -v systemd-resolve &> /dev/null; then
+        systemd-resolve --set-dns=100.100.100.100 --interface=${TAILSCALE_INTERFACE}
       else
-        echo "nameserver 100.100.100.100" | tee -a /etc/resolv.conf;
+        echo "nameserver 100.100.100.100" | tee -a /etc/resolv.conf
       fi
-    - cat /etc/resolv.conf
+      cat /etc/resolv.conf
