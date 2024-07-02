@@ -14,35 +14,16 @@ include:
       state_name: latest_trinity_helios_pve
       auto_apply: true
 
-tailscale_setup:
-  stage: setup
-  image: debian:bullseye-slim
-  before_script:
-    - apt-get update -qq && apt-get install -y iptables wget
-  script:
-    - cd /usr/local/bin
-    - wget https://pkgs.tailscale.com/stable/${TSFILE} -P /tmp
-    - tar xzf /tmp/${TSFILE} --strip-components=1
-    - rm /tmp/${TSFILE}
-    - mkdir /var/run/tailscale
-    - update-alternatives --set iptables /usr/sbin/iptables-legacy
-    - tailscaled --state="mem:" &
-    - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-$(cat /etc/hostname)" --accept-routes
-    - tailscale status
-
 stages: [setup, validate, test, build, deploy]
 
 plan:
-  needs:
-    - tailscale_setup
   before_script:
-    - apk add jq iproute2 bind-tools curl
-    - echo "Adding Tailscale DNS server"
-    - echo "nameserver 100.100.100.100" >> /etc/resolv.conf
-    - echo "Updated DNS configuration:"
-    - cat /etc/resolv.conf
-    - echo "Attempting to resolve Tailscale and external hostnames:"
-    - nslookup trinity-helios.penguin-tegus.ts.net || true
-    - nslookup gitlab.com || true
+    - apk add jq curl iptables ip6tables
+    - curl -fsSL https://tailscale.com/install.sh | sh
+    - tailscaled --tun=userspace-networking --socks5-server=localhost:1055 &
+    - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-routes
+    - sleep 5  # Give tailscale a moment to establish the connection
     - echo "Tailscale status:"
-    - tailscale status || echo "Tailscale not available"
+    - tailscale status
+    - echo "Attempting to resolve Tailscale hostname:"
+    - nslookup trinity-helios.penguin-tegus.ts.net
