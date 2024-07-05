@@ -20,21 +20,8 @@ plan:
   before_script:
     - apk add --no-cache tailscale jq curl iptables ip6tables bind-tools
     - tailscaled --tun=userspace-networking --socks5-server=localhost:1055 &
-    - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-routes
+    - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-dns --accept-routes
     - sleep 10  # Give tailscale more time to establish the connection
     - echo "Tailscale status:"
     - tailscale status
     - echo "nameserver 100.100.100.100" >> /etc/resolv.conf
-    - echo "Contents of /etc/resolv.conf:"
-    - cat /etc/resolv.conf
-    - echo "Attempting to resolve with nslookup:"
-    - nslookup trinity-helios.penguin-tegus.ts.net
-    - echo "Attempting to resolve with dig:"
-    - dig @100.100.100.100 trinity-helios.penguin-tegus.ts.net
-    - echo "Attempting to resolve with host command:"
-    - host trinity-helios.penguin-tegus.ts.net 100.100.100.100
-    - echo "Attempting to resolve CI runner's own Tailscale hostname:"
-    - dig @100.100.100.100 gitlab-ci-${CI_JOB_ID}.penguin-tegus.ts.net
-    - echo "Attempting to ping trinity-helios by IP:"
-    - TRINITY_IP=$(tailscale status | grep trinity-helios | awk '{print $1}')
-    - ping -c 4 $TRINITY_IP
