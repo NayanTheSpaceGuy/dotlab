@@ -22,5 +22,7 @@ plan:
     - tailscaled --tun=userspace-networking --socks5-server=localhost:1055 &
     - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-dns --accept-routes
     - tailscale status
-    - echo "nameserver 100.100.100.100" | cat - /etc/resolv.conf > temp && mv temp /etc/resolv.conf
+    - cat /etc/resolv.conf > /tmp/resolv.conf.backup
+    - echo "nameserver 100.100.100.100" > /etc/resolv.conf
+    - cat /tmp/resolv.conf.backup >> /etc/resolv.conf
     - cat /etc/resolv.conf
