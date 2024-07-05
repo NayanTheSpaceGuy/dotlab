@@ -22,7 +22,6 @@ plan:
     - tailscaled --tun=userspace-networking --socks5-server=localhost:1055 &
     - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-dns --accept-routes
     - tailscale status
-    - cat /etc/resolv.conf > /tmp/resolv.conf.backup
-    - echo "nameserver 100.100.100.100" > /etc/resolv.conf
-    - cat /tmp/resolv.conf.backup >> /etc/resolv.conf
-    - cat /etc/resolv.conf
+    - TAILSCALE_IP=$(tailscale ip -4 trinity-helios)
+    - echo "$TAILSCALE_IP trinity-helios.penguin-tegus.ts.net" >> /etc/hosts
+    - cat /etc/hosts
