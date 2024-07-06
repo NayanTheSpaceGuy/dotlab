@@ -24,7 +24,8 @@ plan:
     - tar xzf /tmp/${TSFILE} --strip-components=1
     - rm /tmp/${TSFILE}
     - mkdir -p /var/run/tailscale
-    - tailscaled --state=mem: &
+    - |
+      tailscaled --state=mem: &
     - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-dns --accept-routes
     - tailscale status
     - cat /etc/resolv.conf
