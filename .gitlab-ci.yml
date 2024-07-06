@@ -29,3 +29,4 @@ plan:
     - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-dns --accept-routes
     - tailscale status
     - cat /etc/resolv.conf
+    - nslookup trinity-helios.penguin-tegus.ts.net 100.100.100.100
