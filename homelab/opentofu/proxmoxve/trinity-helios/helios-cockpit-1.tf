@@ -31,12 +31,24 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
 
   scsihw = "virtio-scsi-pci" # default virtio-scsi-pci
 
-  # disk {
-  #     storage  = "pv1"
-  #     type     = "virtio"
-  #     size     = "40G"
-  #     iothread = 1
-  # }
+  disks {
+    scsi {
+      scsi0 {
+        disk {
+          storage  = "local-zfs"
+          size     = "2G"
+          format   = "raw"
+        }
+      }
+    }
+    ide {
+      ide2 {
+        cloudinit {
+          storage = "local-zfs"
+        }
+      }
+    }
+  }
 
   # -- lifecycle
   lifecycle {
