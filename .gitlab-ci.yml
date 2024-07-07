@@ -16,14 +16,21 @@ include:
 
 stages: [validate, test, build, deploy]
 
+.setup_tailscale: &setup_tailscale
+  - apk add --no-cache iptables ip6tables curl jq
+  - cd /usr/local/bin
+  - wget https://pkgs.tailscale.com/stable/${TSFILE} -O /tmp/${TSFILE}
+  - tar xzf /tmp/${TSFILE} --strip-components=1
+  - rm /tmp/${TSFILE}
+  - mkdir -p /var/run/tailscale
+  - |
+    tailscaled --state=mem: &
+  - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-dns --accept-routes
+
 plan:
   before_script:
-    - apk add --no-cache iptables ip6tables curl jq
-    - cd /usr/local/bin
-    - wget https://pkgs.tailscale.com/stable/${TSFILE} -O /tmp/${TSFILE}
-    - tar xzf /tmp/${TSFILE} --strip-components=1
-    - rm /tmp/${TSFILE}
-    - mkdir -p /var/run/tailscale
-    - |
-      tailscaled --state=mem: &
-    - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-dns --accept-routes
+    - *setup_tailscale
+
+apply:
+  before_script:
+    - *setup_tailscale
