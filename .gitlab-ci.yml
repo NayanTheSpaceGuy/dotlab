@@ -27,4 +27,3 @@ plan:
     - |
       tailscaled --state=mem: &
     - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-dns --accept-routes
-    - curl -d 'username=${PVE_USER}' --data-urlencode 'password=${PVE_PASSWORD}' ${PVE_API_URL}/access/ticket
