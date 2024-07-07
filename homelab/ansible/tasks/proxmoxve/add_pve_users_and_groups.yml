@@ -78,6 +78,7 @@
 
     - name: Add PAM user to Proxmox VE user management
       ansible.builtin.command: pveum user add opentofu@pam
+      when: not user_exists
 
     - name: Add PAM user to Proxmox group
       ansible.builtin.command: pveum user modify opentofu@pam -group opentofugroup
