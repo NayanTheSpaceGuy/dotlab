@@ -35,9 +35,9 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
     scsi {
       scsi0 {
         disk {
-          storage  = "local-zfs"
-          size     = "2G"
-          format   = "raw"
+          storage = "local-zfs"
+          size    = "2G"
+          format  = "raw"
         }
       }
     }
