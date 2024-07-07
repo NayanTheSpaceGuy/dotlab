@@ -46,7 +46,7 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
   }
 
   # Cloud Init Settings
-  ipconfig0  = "ip=10.27.9.98/24,gw=10.20.0.1,ip6=dhcp"
+  ipconfig0  = "ip=10.27.9.98/24,gw=10.27.9.1,ip6=dhcp"
   nameserver = "10.27.9.1"
   ciuser     = "ntsa"
 }
