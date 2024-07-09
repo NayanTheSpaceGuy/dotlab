@@ -9,7 +9,7 @@ include:
   - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@0.21.0
     inputs:
       version: 0.21.0
-      opentofu_version: 1.7.1
+      opentofu_version: 1.7.2
       root_dir: homelab/opentofu/proxmoxve/trinity-helios
       state_name: latest_trinity_helios_pve
       auto_apply: true
