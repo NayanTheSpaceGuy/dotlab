@@ -6,7 +6,7 @@ variables:
   TSFILE: "tailscale_1.28.0_amd64.tgz"
 
 include:
-  - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@0.23.0
+  - component: $CI_SERVER_FQDN/components/opentofu/job-templates@0.23.0
     inputs:
       version: 0.23.0
       opentofu_version: 1.7.2
@@ -14,7 +14,7 @@ include:
       state_name: latest_trinity_helios_pve
       auto_apply: true
 
-stages: [validate, test, build, deploy]
+stages: [validate, build, deploy, cleanup]
 
 .setup_tailscale: &setup_tailscale
   - apk add --no-cache iptables ip6tables curl
@@ -26,11 +26,24 @@ stages: [validate, test, build, deploy]
   - |
     tailscaled --state=mem: &
   - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-dns --accept-routes
+  
+fmt:
+  extends: [.opentofu:fmt]
 
+validate:
+  extends: [.opentofu:validate]
+  
 plan:
+  extends: [.opentofu:plan]
   before_script:
     - *setup_tailscale
 
 apply:
+  extends: [.opentofu:apply]
+  before_script:
+    - *setup_tailscale
+    
+destroy:
+  extends: [.opentofu:destroy]
   before_script:
     - *setup_tailscale
