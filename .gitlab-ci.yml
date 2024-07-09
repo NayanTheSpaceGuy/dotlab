@@ -20,7 +20,7 @@ stages: [validate, build, deploy, cleanup]
   - if: $CI_PIPELINE_SOURCE == "web"
   - if: $CI_PIPELINE_SOURCE == "api"
   - changes:
-      - homelab/opentofu/proxmoxve/trinity-helios/**/*
+    - homelab/opentofu/proxmoxve/trinity-helios/**/*
 
 .setup_tailscale: &setup_tailscale
   - apk add --no-cache iptables ip6tables curl
