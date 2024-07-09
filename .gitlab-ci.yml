@@ -42,6 +42,7 @@ apply:
   extends: [.opentofu:apply]
   before_script:
     - *setup_tailscale
+  retry: 1
     
 destroy:
   extends: [.opentofu:destroy]
