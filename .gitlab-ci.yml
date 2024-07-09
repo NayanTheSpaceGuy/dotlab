@@ -6,7 +6,7 @@ variables:
   TSFILE: "tailscale_1.28.0_amd64.tgz"
 
 include:
-  - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@0.21.0
+  - component: $CI_SERVER_FQDN/components/opentofu/validate-plan-apply@0.23.0
     inputs:
       version: 0.23.0
       opentofu_version: 1.7.2
