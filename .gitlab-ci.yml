@@ -16,6 +16,13 @@ include:
 
 stages: [validate, build, deploy, cleanup]
 
+.optofu_changes: &optofu_changes
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "api"
+    - changes:
+        - homelab/opentofu/proxmoxve/trinity-helios/**/*
+
 .setup_tailscale: &setup_tailscale
   - apk add --no-cache iptables ip6tables curl
   - cd /usr/local/bin
@@ -29,23 +36,33 @@ stages: [validate, build, deploy, cleanup]
   
 fmt:
   extends: [.opentofu:fmt]
+  rules:
+    - *optofu_changes
 
 validate:
   extends: [.opentofu:validate]
+  rules:
+    - *optofu_changes
   
 plan:
   extends: [.opentofu:plan]
+  rules:
+    - *optofu_changes
   before_script:
     - *setup_tailscale
 
 apply:
   extends: [.opentofu:apply]
+  rules:
+    - *optofu_changes
   before_script:
     - *setup_tailscale
   retry: 1
     
 destroy:
   extends: [.opentofu:destroy]
+  rules:
+    - *optofu_changes
   before_script:
     - *setup_tailscale
   allow_failure: true
