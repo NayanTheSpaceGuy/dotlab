@@ -17,11 +17,10 @@ include:
 stages: [validate, build, deploy, cleanup]
 
 .optofu_changes: &optofu_changes
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "web"
-    - if: $CI_PIPELINE_SOURCE == "api"
-    - changes:
-        - homelab/opentofu/proxmoxve/trinity-helios/**/*
+  - if: $CI_PIPELINE_SOURCE == "web"
+  - if: $CI_PIPELINE_SOURCE == "api"
+  - changes:
+      - homelab/opentofu/proxmoxve/trinity-helios/**/*
 
 .setup_tailscale: &setup_tailscale
   - apk add --no-cache iptables ip6tables curl
