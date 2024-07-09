@@ -4,7 +4,7 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
   name        = "helios-cockpit-1"
   desc        = "Helios Cockpit 1"
   target_node = "trinity-helios"
-  vmid        = 21001
+  vmid        = 21011
 
   # VM template and OS settings
   clone      = "deb-bookworm-cloud"
@@ -49,11 +49,12 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
   network {
     bridge = "vmbr0"
     model  = "virtio"
+    tag    = "9"
   }
 
   # Cloud-Init settings
-  ipconfig0  = "ip=10.27.9.97/24,gw=10.27.9.1,ip6=dhcp"
-  nameserver = "10.27.9.1"
+  ipconfig0  = "ip=10.72.9.11/24,gw=10.72.9.1,ip6=dhcp"
+  nameserver = "10.72.9.1"
   ciuser     = "ntsa"
 
   # Lifecycle management
