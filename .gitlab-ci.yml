@@ -47,3 +47,4 @@ destroy:
   extends: [.opentofu:destroy]
   before_script:
     - *setup_tailscale
+  allow_failure: true
