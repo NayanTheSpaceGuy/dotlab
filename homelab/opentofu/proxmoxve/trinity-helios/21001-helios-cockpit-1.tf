@@ -13,12 +13,12 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
   bios       = "seabios"
 
   # Hardware configuration
-  agent       = 1
-  cores       = 2
-  sockets     = 1
-  cpu         = "host"
-  memory      = 2048
-  scsihw      = "virtio-scsi-pci"
+  agent   = 1
+  cores   = 2
+  sockets = 1
+  cpu     = "host"
+  memory  = 2048
+  scsihw  = "virtio-scsi-pci"
 
   # Boot and startup settings
   onboot           = true
