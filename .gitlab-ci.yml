@@ -17,7 +17,7 @@ include:
 stages: [validate, test, build, deploy]
 
 .setup_tailscale: &setup_tailscale
-  - apk add --no-cache iptables ip6tables curl jq
+  - apk add --no-cache iptables ip6tables curl
   - cd /usr/local/bin
   - wget https://pkgs.tailscale.com/stable/${TSFILE} -O /tmp/${TSFILE}
   - tar xzf /tmp/${TSFILE} --strip-components=1
