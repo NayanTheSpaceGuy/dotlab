@@ -7,7 +7,7 @@
     desired_hosts: "trinity_helios"
     desired_apt_upgrade_type: "dist"
     desired_tailscale_tags: "['deviceofspace']"
-    desired_tailscale_args: "--advertise-routes=10.27.9.0/24 --accept-routes --ssh"
+    desired_tailscale_args: "--accept-routes --ssh --advertise-routes=10.27.9.0/24,10.54.9.0/24,10.63.9.0/24,10.72.9.0/24,10.81.9.0/24"
     desired_vm_id: "21000"
     desired_vm_name: "deb-bookworm-cloud"
     desired_image_url: "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-genericcloud-amd64-20240507-1740.raw"
