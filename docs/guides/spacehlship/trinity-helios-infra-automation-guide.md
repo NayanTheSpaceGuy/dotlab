@@ -34,15 +34,14 @@
   - Select keyboard layout as U.S. English.
   - Set new password.
   - Enter email to receive notifications from your proxmox ve server.
-  - Select the correct NIC.
-  - Enter the following values:
+  - Select the correct NIC and enter the following values:
     - FQDN: trinity-helios.penguin-tegus.ts.net
     - IP Address: 10.27.9.200/24
     - Gateway: 10.27.9.1
     - DNS Server: 10.27.9.1
   - Confirm the summary and install.
 
-#### 1.2 **Setup Storage**
+#### 1.2 **Setup More Storage**
   - Access the Proxmox VE [web interface](https://10.27.9.200:8006) and login with root user and the password you just set.
   - Go to console/shell and format swap partition of 8GB for 16GB RAM (not strict) and swapon.
   - Format and mount the reserve partition of 40GB for 256GB drive at /mnt/reserve/btrfs-1 (not strict)
