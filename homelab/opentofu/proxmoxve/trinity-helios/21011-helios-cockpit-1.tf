@@ -5,6 +5,7 @@ resource "proxmox_vm_qemu" "helios-cockpit-1" {
   desc        = "Helios Cockpit 1"
   target_node = "trinity-helios"
   vmid        = 21011
+  tags        = "cockpit,docker"
 
   # VM template and OS settings
   clone      = "deb-bookworm-cloud"

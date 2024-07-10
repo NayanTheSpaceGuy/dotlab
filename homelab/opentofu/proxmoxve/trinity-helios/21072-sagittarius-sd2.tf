@@ -5,6 +5,7 @@ resource "proxmox_vm_qemu" "sagittarius-sd2" {
   desc        = "Sagittarius Server Demo 2"
   target_node = "trinity-helios"
   vmid        = 21072
+  tags        = "sagittarius,server,demo,docker"
 
   # VM template and OS settings
   clone      = "deb-bookworm-cloud"

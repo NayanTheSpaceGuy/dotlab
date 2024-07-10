@@ -5,6 +5,7 @@ resource "proxmox_vm_qemu" "scorpius-sc1" {
   desc        = "Scorpius Server Critical 1"
   target_node = "trinity-helios"
   vmid        = 21021
+  tags        = "scorpius,server,critical,docker"
 
   # VM template and OS settings
   clone      = "deb-bookworm-cloud"

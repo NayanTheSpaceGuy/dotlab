@@ -5,6 +5,7 @@ resource "proxmox_vm_qemu" "taurus-sp1" {
   desc        = "Taurus Server Production 1"
   target_node = "trinity-helios"
   vmid        = 21051
+  tags        = "taurus,server,production,docker"
 
   # VM template and OS settings
   clone      = "deb-bookworm-cloud"

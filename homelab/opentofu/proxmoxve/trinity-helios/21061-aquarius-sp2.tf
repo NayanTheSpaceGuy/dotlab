@@ -5,6 +5,7 @@ resource "proxmox_vm_qemu" "aquarius-sp2" {
   desc        = "Aquarius Server Production 2"
   target_node = "trinity-helios"
   vmid        = 21061
+  tags        = "aquarius,server,production,docker"
 
   # VM template and OS settings
   clone      = "deb-bookworm-cloud"
