@@ -1,0 +1,8 @@
+---
+- name: Configure ProxmoxVE network
+  template:
+    src: ../../templates/proxmoxve_network.j2
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: '0644'

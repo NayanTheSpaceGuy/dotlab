@@ -3,7 +3,21 @@
   roles:
     - role: "proxmoxve_common"
       vars:
+        iac_tf_role: "{{ desired_iac_tf_role }}"
+        iac_tf_group: "{{ desired_iac_tf_group }}"
+        iac_tf_user: "{{ desired_iac_tf_user }}"
         th_tofu_password: "{{ desired_th_tofu_password }}"
+
+    - role: "proxmoxve_network"
+      vars:
+        proxmoxve_physical_interface: "{{ desired_proxmoxve_physical_interface }}"
+        proxmoxve_bridge_interface: "{{ desired_proxmoxve_bridge_interface }}"
+        proxmoxve_vlan: "{{ desired_proxmoxve_vlan }}"
+        proxmoxve_ipv4: "{{ desired_proxmoxve_ipv4 }}"
+        proxmoxve_gateway_ipv4: "{{ desired_proxmoxve_gateway_ipv4 }}"
+        proxmoxve_ipv6: "{{ desired_proxmoxve_ipv6 }}"
+        proxmoxve_gateway_ipv6: "{{ desired_proxmoxve_gateway_ipv6 }}"
+        proxmoxve_additional_vlans: "{{ desired_proxmoxve_additional_vlans }}"
 
     - role: "correct_package_manager_sources"
 

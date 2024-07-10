@@ -5,13 +5,31 @@
   import_playbook: ../../on-demand/setup/trinity-helios/part-1.yml
   vars:
     desired_hosts: "trinity_helios"
+
+    desired_iac_tf_role: "OpentofuProv"
+    desired_iac_tf_group: "opentofugroup"
+    desired_iac_tf_user: "opentofu"
+    desired_th_tofu_password: "{{ secret_th_tofu_password }}"
+
+    desired_proxmoxve_physical_interface: "eno1"
+    desired_proxmoxve_bridge_interface: "vmbr0"
+    desired_proxmoxve_vlan: 99
+    desired_proxmoxve_ipv4: "10.27.9.200/24"
+    desired_proxmoxve_gateway_ipv4: "10.27.9.1"
+    desired_proxmoxve_ipv6: "2407:a300:d:4df7::200/128"
+    desired_proxmoxve_gateway_ipv6: "fe80::50af:97ff:fe57:5065"
+    desired_proxmoxve_additional_vlans:
+      - 9
+      - 11
+
     desired_apt_upgrade_type: "dist"
+
+    desired_tailscale_authkey: "{{ secret_tailscale_authkey }}"
     desired_tailscale_tags: "['deviceofspace']"
     desired_tailscale_args: "--accept-routes --ssh --advertise-routes=10.27.9.0/24,10.54.9.0/24,10.63.9.0/24,10.72.9.0/24,10.81.9.0/24"
+
     desired_vm_id: "21000"
     desired_vm_name: "deb-bookworm-cloud"
     desired_image_url: "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-genericcloud-amd64-20240507-1740.raw"
     desired_image_name: "debian-12-genericcloud-amd64-20240507-1740"
     desired_storage: "local-zfs"
-    desired_tailscale_authkey: "{{ secret_tailscale_authkey }}"
-    desired_th_tofu_password: "{{ secret_th_tofu_password }}"

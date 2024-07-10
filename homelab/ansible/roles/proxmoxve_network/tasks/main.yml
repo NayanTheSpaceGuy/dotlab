@@ -1,0 +1,2 @@
+---
+- import_tasks: ../../../tasks/proxmoxve/configure_pve_network.yml
