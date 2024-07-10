@@ -3,6 +3,7 @@ variables:
   TF_VAR_pve_api_url: ${PVE_API_URL}
   TF_VAR_pve_user: ${PVE_USER}
   TF_VAR_pve_password: ${PVE_PASSWORD}
+  TF_VAR_general_ci_password: ${GENERAL_CI_PASSWORD}
   TSFILE: "tailscale_1.28.0_amd64.tgz"
 
 include:
@@ -32,7 +33,7 @@ stages: [validate, build, deploy, cleanup]
   - |
     tailscaled --state=mem: &
   - tailscale up --authkey=${TAILSCALE_AUTHKEY} --hostname="gitlab-ci-${CI_JOB_ID}" --accept-dns --accept-routes
-  
+
 fmt:
   extends: [.opentofu:fmt]
   rules:
@@ -42,7 +43,7 @@ validate:
   extends: [.opentofu:validate]
   rules:
     - *optofu_changes
-  
+
 plan:
   extends: [.opentofu:plan]
   rules:
@@ -57,7 +58,7 @@ apply:
   before_script:
     - *setup_tailscale
   retry: 1
-    
+
 destroy:
   extends: [.opentofu:destroy]
   rules:

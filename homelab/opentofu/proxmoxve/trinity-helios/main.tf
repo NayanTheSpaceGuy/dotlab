@@ -22,6 +22,10 @@ variable "pve_password" {
   sensitive = true
 }
 
+variable "general_ci_password" {
+  type      = string
+  sensitive = true
+}
 provider "proxmox" {
   pm_api_url  = var.pve_api_url
   pm_user     = var.pve_user

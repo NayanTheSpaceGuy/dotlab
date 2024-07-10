@@ -56,6 +56,7 @@ resource "proxmox_vm_qemu" "scorpius-sc1" {
   ipconfig0  = "ip=10.72.9.21/24,gw=10.72.9.1,ip6=dhcp"
   nameserver = "10.72.9.1"
   ciuser     = "ntsa"
+  cipassword = var.general_ci_password
 
   # Lifecycle management
   lifecycle {

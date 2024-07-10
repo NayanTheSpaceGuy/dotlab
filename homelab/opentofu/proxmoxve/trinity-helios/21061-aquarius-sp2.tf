@@ -56,6 +56,7 @@ resource "proxmox_vm_qemu" "aquarius-sp2" {
   ipconfig0  = "ip=10.81.9.61/24,gw=10.81.9.1,ip6=dhcp"
   nameserver = "10.81.9.1"
   ciuser     = "ntsa"
+  cipassword = var.general_ci_password
 
   # Lifecycle management
   lifecycle {
