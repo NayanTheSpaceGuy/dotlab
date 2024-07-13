@@ -28,7 +28,7 @@ variable "GENERAL_CI_PASSWORD" {
 }
 
 variable "PUBLIC_SSH_KEYS" {
-  type = string
+  type      = string
   sensitive = true
 }
 
