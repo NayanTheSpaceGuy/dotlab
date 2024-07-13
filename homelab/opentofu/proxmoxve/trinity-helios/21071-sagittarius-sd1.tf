@@ -57,7 +57,8 @@ resource "proxmox_vm_qemu" "sagittarius-sd1" {
   ipconfig0  = "ip=10.72.9.71/24,gw=10.72.9.1,ip6=dhcp"
   nameserver = "10.72.9.1"
   ciuser     = "ntsa"
-  cipassword = var.general_ci_password
+  cipassword = var.GENERAL_CI_PASSWORD
+  sshkeys    = var.PUBLIC_SSH_KEYS
 
   # Lifecycle management
   lifecycle {

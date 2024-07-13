@@ -8,26 +8,32 @@ terraform {
   backend "http" {}
 }
 
-variable "pve_api_url" {
+variable "PVE_API_URL" {
   type      = string
   sensitive = true
 }
 
-variable "pve_user" {
+variable "PVE_USER" {
   type = string
 }
 
-variable "pve_password" {
+variable "PVE_PASSWORD" {
   type      = string
   sensitive = true
 }
 
-variable "general_ci_password" {
+variable "GENERAL_CI_PASSWORD" {
   type      = string
   sensitive = true
 }
+
+variable "PUBLIC_SSH_KEYS" {
+  type = string
+  sensitive = true
+}
+
 provider "proxmox" {
-  pm_api_url  = var.pve_api_url
-  pm_user     = var.pve_user
-  pm_password = var.pve_password
+  pm_api_url  = var.PVE_API_URL
+  pm_user     = var.PVE_USER
+  pm_password = var.PVE_PASSWORD
 }

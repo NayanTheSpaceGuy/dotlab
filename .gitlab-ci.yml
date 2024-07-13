@@ -1,9 +1,10 @@
 variables:
   TF_CLI_ARGS_init: "-lockfile=readonly"
-  TF_VAR_pve_api_url: ${PVE_API_URL}
-  TF_VAR_pve_user: ${PVE_USER}
-  TF_VAR_pve_password: ${PVE_PASSWORD}
-  TF_VAR_general_ci_password: ${GENERAL_CI_PASSWORD}
+  TF_VAR_PVE_API_URL: ${PVE_API_URL}
+  TF_VAR_PVE_USER: ${PVE_USER}
+  TF_VAR_PVE_PASSWORD: ${PVE_PASSWORD}
+  TF_VAR_GENERAL_CI_PASSWORD: ${GENERAL_CI_PASSWORD}
+  TF_VAR_PUBLIC_SSH_KEYS: ${PUBLIC_SSH_KEYS}
   TSFILE: "tailscale_1.28.0_amd64.tgz"
 
 include:
