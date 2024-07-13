@@ -14,7 +14,7 @@ resource "proxmox_vm_qemu" "sagittarius-sd3" {
   bios       = "seabios"
 
   # Hardware configuration
-  agent   = 1
+  # agent   = 1
   cores   = 2
   sockets = 1
   cpu     = "host"
