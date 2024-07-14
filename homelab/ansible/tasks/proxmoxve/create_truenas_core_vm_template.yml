@@ -32,13 +32,17 @@
       ansible.builtin.shell: >
         qm create {{ truenas_core_vm_id }} --memory 2048 --core 2 --name {{ truenas_core_vm_name }} --net0 virtio,bridge=vmbr0
 
-    - name: Import the downloaded TrueNAS iso
-      ansible.builtin.shell: >
-        qm disk import {{ truenas_core_vm_id }} /var/lib/vz/isos/{{ truenas_core_image_name }} {{ storage }}
-
-    - name: Attach the new disk to the VM
+    - name: Add new scsi drive
       ansible.builtin.shell: >
         qm set {{ truenas_core_vm_id }} --scsihw virtio-scsi-pci --scsi0 {{ storage }}:vm-{{ truenas_core_vm_id }}-disk-0
+
+    - name: Attach CD-ROM with TrueNAS iso
+      ansible.builtin.shell: >
+        qm set {{ truenas_core_vm_id }} --ide2 /var/lib/vz/isos/{{ truenas_core_image_name }},media=cdrom
+
+    - name: Set boot order
+      ansible.builtin.shell: >
+        qm set {{ truenas_core_vm_id }} --boot order=scsi0;ide2
 
     - name: Add serial console
       ansible.builtin.shell: >
