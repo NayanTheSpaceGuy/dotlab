@@ -35,13 +35,6 @@ resource "proxmox_vm_qemu" "canismajor-np1" {
         }
       }
     }
-    ide {
-      ide2 {
-        cloudinit {
-          storage = "local-zfs"
-        }
-      }
-    }
   }
 
   # Network configuration
@@ -50,13 +43,6 @@ resource "proxmox_vm_qemu" "canismajor-np1" {
     model  = "virtio"
     tag    = "9"
   }
-
-  # Cloud-Init settings
-  ipconfig0  = "ip=10.72.9.5/24,gw=10.72.9.1,ip6=dhcp"
-  nameserver = "10.72.9.1"
-  ciuser     = "ntsa"
-  cipassword = var.GENERAL_CI_PASSWORD
-  sshkeys    = var.PUBLIC_SSH_KEYS
 
   # Lifecycle management
   lifecycle {
