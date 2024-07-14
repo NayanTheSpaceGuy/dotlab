@@ -4,12 +4,14 @@ resource "proxmox_vm_qemu" "canismajor-np1" {
   name        = "canismajor-np1"
   desc        = "Canis Major NAS Production 1"
   target_node = "trinity-helios"
-  vmid        = 11005
+  vmid        = 18005
   tags        = "nas,production"
 
   # VM template and OS settings
-  full_clone = false
+  clone      = "truenas-core"
+  full_clone = true
   qemu_os    = "l26"
+  bios       = "seabios"
 
   # Hardware configuration
   agent   = 1
