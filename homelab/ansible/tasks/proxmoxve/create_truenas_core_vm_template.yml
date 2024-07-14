@@ -7,7 +7,7 @@
 
 - name: Set fact for VM existence
   ansible.builtin.set_fact:
-    deb_bookworm_vm_tmpl_exists: "{{ truenas_core_vm_tmpl_check.stdout | bool }}"
+    truenas_core_vm_tmpl_exists: "{{ truenas_core_vm_tmpl_check.stdout | bool }}"
 
 - name: Delete existing VM template if it exists
   ansible.builtin.shell: >
