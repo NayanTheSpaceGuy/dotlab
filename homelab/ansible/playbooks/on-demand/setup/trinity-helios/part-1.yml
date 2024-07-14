@@ -35,8 +35,12 @@
 
     - role: "proxmoxve_vm_templates"
       vars:
-        vm_id: "{{ desired_vm_id }}"
-        vm_name: "{{ desired_vm_name }}"
-        image_url: "{{ desired_image_url }}"
-        image_name: "{{ desired_image_name }}"
+        truenas_core_vm_id: "{{ desired_truenas_core_vm_id }}"
+        truenas_core_vm_name: "{{ desired_truenas_core_vm_name }}"
+        truenas_core_image_url: "{{ desired_truenas_core_image_url }}"
+        truenas_core_image_name: "{{ desired_truenas_core_image_name }}"
+        deb_bookworm_vm_id: "{{ desired_deb_bookworm_vm_id }}"
+        deb_bookworm_vm_name: "{{ desired_deb_bookworm_vm_name }}"
+        deb_bookworm_image_url: "{{ desired_deb_bookworm_image_url }}"
+        deb_bookworm_image_name: "{{ desired_deb_bookworm_image_name }}"
         storage: "{{ desired_storage }}"

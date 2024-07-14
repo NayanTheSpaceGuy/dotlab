@@ -1,2 +1,3 @@
 ---
-- import_tasks: ../../../tasks/proxmoxve/create_vm_template.yml
+- import_tasks: ../../../tasks/proxmoxve/create_truenas_core_vm_template.yml
+- import_tasks: ../../../tasks/proxmoxve/create_deb_bookworm_vm_template.yml
