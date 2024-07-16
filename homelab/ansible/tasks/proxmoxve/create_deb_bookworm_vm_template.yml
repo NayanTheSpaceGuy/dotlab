@@ -19,13 +19,13 @@
   block:
     - name: Check if the downloaded image exists
       ansible.builtin.stat:
-        path: "/var/lib/vz/isos/{{ deb_bookworm_image_name }}"
+        path: "/var/lib/vz/images/{{ deb_bookworm_image_name }}"
       register: deb_bookworm_image_file
 
     - name: Download Debian cloud image
       ansible.builtin.get_url:
         url: "{{ deb_bookworm_image_url }}"
-        dest: "/var/lib/vz/isos/{{ deb_bookworm_image_name }}"
+        dest: "/var/lib/vz/images/{{ deb_bookworm_image_name }}"
       when: not deb_bookworm_image_file.stat.exists
 
     - name: Create new virtual machine
@@ -34,7 +34,7 @@
 
     - name: Import the downloaded Debian Bookworm disk
       ansible.builtin.shell: >
-        qm disk import {{ deb_bookworm_vm_id }} /var/lib/vz/isos/{{ deb_bookworm_image_name }} {{ storage }}
+        qm disk import {{ deb_bookworm_vm_id }} /var/lib/vz/images/{{ deb_bookworm_image_name }} {{ storage }}
 
     - name: Attach the new disk to the VM
       ansible.builtin.shell: >
