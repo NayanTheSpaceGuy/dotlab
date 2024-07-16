@@ -39,7 +39,7 @@
 
     - name: Add new scsi drive
       ansible.builtin.shell: >
-        qm set {{ truenas_core_vm_id }} --scsihw virtio-scsi-pci --scsi0 {{ storage }}:vm-{{ truenas_core_vm_id }}-disk-0
+        qm set {{ truenas_core_vm_id }} --scsihw virtio-scsi-pci --scsi0 {{ storage }}:base-{{ truenas_core_vm_id }}-disk-0
 
     - name: Attach CD-ROM with TrueNAS iso
       ansible.builtin.shell: >
