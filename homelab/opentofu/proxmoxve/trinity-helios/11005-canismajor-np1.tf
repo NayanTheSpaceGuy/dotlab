@@ -23,6 +23,7 @@ resource "proxmox_vm_qemu" "canismajor-np1" {
 
   # Boot and startup settings
   onboot           = true
+  boot             = "order=scsi0;ide2"
   startup          = "order=1,up=10"
   automatic_reboot = false
 
@@ -32,7 +33,7 @@ resource "proxmox_vm_qemu" "canismajor-np1" {
       scsi0 {
         disk {
           storage = "local-zfs"
-          size    = "2G"
+          size    = "16G"
           format  = "raw"
         }
       }
