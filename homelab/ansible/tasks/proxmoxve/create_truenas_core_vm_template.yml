@@ -19,13 +19,13 @@
   block:
     - name: Check if the downloaded image exists
       ansible.builtin.stat:
-        path: "/var/lib/vz/isos/{{ truenas_core_image_name }}"
+        path: "/var/lib/vz/template/iso/{{ truenas_core_image_name }}"
       register: truenas_core_image_file
 
     - name: Download TrueNAS Core iso
       ansible.builtin.get_url:
         url: "{{ truenas_core_image_url }}"
-        dest: "/var/lib/vz/isos/{{ truenas_core_image_name }}"
+        dest: "/var/lib/vz/template/iso/{{ truenas_core_image_name }}"
       when: not truenas_core_image_file.stat.exists
 
     - name: Create new virtual machine
@@ -34,7 +34,7 @@
 
     - name: Create ZFS volume for VM disk
       ansible.builtin.shell: >
-        zfs create -V 8G rpool/data/vm-{{ truenas_core_vm_id }}-disk-0
+        zfs create -V 8G rpool/data/base-{{ truenas_core_vm_id }}-disk-0
       ignore_errors: yes
 
     - name: Add new scsi drive
@@ -43,7 +43,7 @@
 
     - name: Attach CD-ROM with TrueNAS iso
       ansible.builtin.shell: >
-        qm set {{ truenas_core_vm_id }} --ide2 /var/lib/vz/isos/{{ truenas_core_image_name }},media=cdrom
+        qm set {{ truenas_core_vm_id }} --ide2 local:{{ truenas_core_image_name }},media=cdrom
 
     - name: Set boot order
       ansible.builtin.shell: >
