@@ -14,7 +14,7 @@ resource "proxmox_vm_qemu" "canismajor-np1" {
   bios       = "seabios"
 
   # Hardware configuration
-  agent   = 1
+  agent   = 0
   cores   = 2
   sockets = 1
   cpu     = "host"
@@ -33,7 +33,7 @@ resource "proxmox_vm_qemu" "canismajor-np1" {
       scsi0 {
         disk {
           storage = "local-zfs"
-          size    = "16G"
+          size    = "32G"
           format  = "raw"
         }
       }
