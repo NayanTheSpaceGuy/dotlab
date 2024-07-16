@@ -41,7 +41,7 @@
 
     - name: Create ZFS volume for VM disk
       ansible.builtin.shell: >
-        zfs create -V 8G rpool/data/base-{{ truenas_core_vm_id }}-disk-0
+        zfs create -V 32G rpool/data/base-{{ truenas_core_vm_id }}-disk-0
       when: zfs_check.rc != 0
 
     - name: Add new scsi drive
@@ -55,10 +55,6 @@
     - name: Set boot order
       ansible.builtin.shell: >
         qm set {{ truenas_core_vm_id }} --boot order="scsi0;ide2"
-
-    - name: Add serial console
-      ansible.builtin.shell: >
-        qm set {{ truenas_core_vm_id }} --serial0 socket --vga serial0
 
     - name: Set autostart on boot
       ansible.builtin.shell: >
