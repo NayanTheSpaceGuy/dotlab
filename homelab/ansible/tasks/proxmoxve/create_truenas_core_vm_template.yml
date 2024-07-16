@@ -32,10 +32,17 @@
       ansible.builtin.shell: >
         qm create {{ truenas_core_vm_id }} --memory 2048 --core 2 --name {{ truenas_core_vm_name }} --net0 virtio,bridge=vmbr0
 
+    - name: Check if ZFS volume exists
+      ansible.builtin.shell: >
+        zfs list rpool/data/base-{{ truenas_core_vm_id }}-disk-0
+      register: zfs_check
+      failed_when: false
+      changed_when: false
+
     - name: Create ZFS volume for VM disk
       ansible.builtin.shell: >
         zfs create -V 8G rpool/data/base-{{ truenas_core_vm_id }}-disk-0
-      ignore_errors: yes
+      when: zfs_check.rc != 0
 
     - name: Add new scsi drive
       ansible.builtin.shell: >
@@ -43,7 +50,7 @@
 
     - name: Attach CD-ROM with TrueNAS iso
       ansible.builtin.shell: >
-        qm set {{ truenas_core_vm_id }} --ide2 local:{{ truenas_core_image_name }},media=cdrom
+        qm set {{ truenas_core_vm_id }} --ide2 local:iso/{{ truenas_core_image_name }},media=cdrom
 
     - name: Set boot order
       ansible.builtin.shell: >
