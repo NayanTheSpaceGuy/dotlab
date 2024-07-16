@@ -38,6 +38,13 @@ resource "proxmox_vm_qemu" "canismajor-np1" {
         }
       }
     }
+    ide {
+      ide2 {
+        cdrom {
+          iso = "local:iso/TrueNAS-Core-13.iso"
+        }
+      }
+    }
   }
 
   # Network configuration

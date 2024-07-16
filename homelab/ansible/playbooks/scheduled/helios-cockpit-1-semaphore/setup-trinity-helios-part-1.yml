@@ -31,7 +31,7 @@
     desired_truenas_core_vm_id: "18000"
     desired_truenas_core_vm_name: "truenas-core"
     desired_truenas_core_image_url: "https://download-core.sys.truenas.net/13.0/STABLE/U6.2/x64/TrueNAS-13.0-U6.2.iso"
-    desired_truenas_core_image_name: "TrueNAS-13.0-U6.2.iso"
+    desired_truenas_core_image_name: "TrueNAS-Core-13.iso"
     desired_deb_bookworm_vm_id: "21000"
     desired_deb_bookworm_vm_name: "deb-bookworm-cloud"
     desired_deb_bookworm_image_url: "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-genericcloud-amd64-20240507-1740.raw"
