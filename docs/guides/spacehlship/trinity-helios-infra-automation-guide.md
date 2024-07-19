@@ -70,15 +70,16 @@
     You will be reminded to do so at that step, now continue.
 
 ### 3. **Automation : Part One**
-#### 3.1 **Run the Helios-Setup Part One Bash Script**
+#### 3.1 **Run the Helios-Setup Bash Script**
   - Once you have logged into the LXC,
-    Run the following command to download and execute the helios-setup part one bash script:
+    Run the following command to download and execute the helios-setup bash script:
     ```
     apt-get update && apt-get install -y wget && \
-    wget https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/setup-trinity-helios/run-in-helios-setup-lxc.sh && \
-    chmod +x ~/run-in-helios-setup-lxc.sh && \
-    ./run-in-helios-setup-lxc.sh
+    wget https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/bin/helios-setup.sh && \
+    chmod +x ~/helios-setup.sh && \
+    ./helios-setup.sh
     ```
+  - Enter 1 to run part one of the automation process.
   - Enter the GitHub Personal Access Token, when asked. (The input will be hidden for security reasons)
   - Enter the SOPS Public and Private Key line by line, when asked. (The input will be hidden for security reasons)
   - After the script gets completed successfully, reboot trinity-helios.
@@ -91,14 +92,13 @@
   - Also set VLAN tag 99 in the network settings of the helios-setup-lxc
 
 ### 4. **Automation : Part Two**
-#### 4.1 **Run the Helios-Setup Part Two Bash Script**
+#### 4.1 **Run the Helios-Setup Bash Script**
   - Log into the helios-setup-lxc,
-    Run the following command to download and execute the helios-setup part two bash script:
+    Run the following command to execute the helios-setup bash script:
     ```
-    wget https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/setup-trinity-helios/run-in-helios-setup-lxc.sh && \
-    chmod +x ~/run-in-helios-setup-lxc.sh && \
-    ./run-in-helios-setup-lxc.sh
+    ./helios-setup.sh
     ```
+  - Enter 2 to run part two of the automation process.
 
 ### 5. **Backup VMs and LXCs**
   - Setup backup jobs with Proxmox VE web interface.

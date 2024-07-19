@@ -5,58 +5,21 @@
 # License: GPLv3.0+
 # https://github.com/NayanTheSpaceGuy/dotfiles-and-homelab/raw/main/LICENSE
 
-############
-# Functions
-###########
-function detect_distribution ()
-{
-        local dtype="unknown"  # Default to unknown
+source "$HELIOS_SETUP_BASE_PATH"/lib/detect_linux_distribution.sh
+source "$HELIOS_SETUP_BASE_PATH"/lib/update_packages.sh
+source "$HELIOS_SETUP_BASE_PATH"/lib/install_sops.sh
 
-        # Use /etc/os-release for modern distro identification
-        if [ -r /etc/os-release ]; then
-            source /etc/os-release
-            case $ID in
-                fedora|rhel|centos)
-                    dtype="redhat"
-                    ;;
-                sles|opensuse*)
-                    dtype="suse"
-                    ;;
-                ubuntu|debian)
-                    dtype="debian"
-                    ;;
-                gentoo)
-                    dtype="gentoo"
-                    ;;
-                arch)
-                    dtype="arch"
-                    ;;
-                slackware)
-                    dtype="slackware"
-                    ;;
-                *)
-                    # If ID is not recognized, keep dtype as unknown
-                    ;;
-            esac
-        fi
-
-        echo "$dtype"
-}
-
-function header_info ()
+function helios_setup_part_one_header_info ()
 {
     clear
-    echo " _   _  _____  _      _____  _____  _____            _____  _____  _____  _   _ ______  "
-    echo "| | | ||  ___|| |    |_   _||  _  |/  ___|          /  ___||  ___||_   _|| | | || ___ \ "
-    echo "| |_| || |__  | |      | |  | | | |\ '--.   ______  \ '--. | |__    | |  | | | || |_/ / "
-    echo "|  _  ||  __| | |      | |  | | | | '--. \ |______|  '--. \|  __|   | |  | | | ||  __/  "
-    echo "| | | || |___ | |____ _| |_ \ \_/ //\__/ /          /\__/ /| |___   | |  | |_| || |     "
-    echo "\_| |_/\____/ \_____/ \___/  \___/ \____/           \____/ \____/   \_/   \___/ \_|     "
+    echo " _   _  _____  _      _____  _____  _____            _____  _____  _____  _   _ ______      ______   ___  ______  _____   __   "
+    echo "| | | ||  ___|| |    |_   _||  _  |/  ___|          /  ___||  ___||_   _|| | | || ___ \  _  | ___ \ / _ \ | ___ \|_   _| /  |  "
+    echo "| |_| || |__  | |      | |  | | | |\ '--.   ______  \ '--. | |__    | |  | | | || |_/ / (_) | |_/ // /_\ \| |_/ /  | |   '| |  "
+    echo "|  _  ||  __| | |      | |  | | | | '--. \ |______|  '--. \|  __|   | |  | | | ||  __/      |  __/ |  _  ||    /   | |    | |  "
+    echo "| | | || |___ | |____ _| |_ \ \_/ //\__/ /          /\__/ /| |___   | |  | |_| || |      _  | |    | | | || |\ \   | |   _| |_ "
+    echo "\_| |_/\____/ \_____/ \___/  \___/ \____/           \____/ \____/   \_/   \___/ \_|     (_) \_|    \_| |_/\_| \_|  \_/   \___/ "
     echo ""
     echo "Loading..."
-    echo "-------------"
-    echo "Here we go..."
-    echo "-------------"
 }
 
 function base_installation ()
@@ -65,44 +28,20 @@ function base_installation ()
     echo "------------------------------------------------"
     echo "Updating package lists and upgrading packages..."
     echo "------------------------------------------------"
-    apt-get update
-    apt-get upgrade -y
+    update_packages
 
     echo ""
     echo "------------------------------------------------------------------------"
     echo "Installing required packages (curl, sops, age, git, ansible, sshpass)..."
     echo "------------------------------------------------------------------------"
     apt-get install -y curl age git ansible sshpass
-
-    if ! dpkg -s sops &> /dev/null; then
-        echo "SOPS is not installed. Installing now..."
-        SOPS_LATEST_VERSION=$(curl -s "https://api.github.com/repos/getsops/sops/releases/latest" | grep -Po '"tag_name": "v\K[0-9.]+')
-        curl -Lo sops.deb "https://github.com/getsops/sops/releases/download/v${SOPS_LATEST_VERSION}/sops_${SOPS_LATEST_VERSION}_amd64.deb"
-        dpkg -i ./sops.deb
-        apt-get install -f # Install missing dependencies
-        echo "SOPS has been installed successfully."
-        sops --version
-    else
-        echo "SOPS is already installed."
-        sops --version
-    fi
+    install_sops
 
     echo ""
     echo "--------------------------------------------------------"
     echo "Installing required ansible roles with ansible-galaxy..."
     echo "--------------------------------------------------------"
     ansible-galaxy role install artis3n.tailscale
-
-    echo ""
-    echo "--------------"
-    echo "Cleaning up..."
-    echo "--------------"
-    if [ -f sops.deb ]; then
-        rm -rf sops.deb
-        echo "Removed installation files that are no longer required."
-    else
-        echo "No installation files to remove."
-    fi
 }
 
 function github_pat_setup ()
@@ -115,7 +54,7 @@ function github_pat_setup ()
     # Check and create ~/.github directory if it doesn't exist
     if [ ! -d ~/.github ]; then
         echo "Creating ~/.github directory..."
-        mkdir ~/.github
+        mkdir "$HOME"/.github
     fi
 
     # Check if ~/.github/dotfiles-and-homelab-pat.txt exists
@@ -215,9 +154,9 @@ function clone_repo ()
     echo "----------------------"
 
     echo "Creating new setup directory and navigating to it..."
-    rm -rf ~/helios-setup || return
-    mkdir ~/helios-setup
-    cd ~/helios-setup
+    rm -rf "$HOME"/helios-setup || return
+    mkdir "$HOME"/helios-setup
+    cd "$HOME"/helios-setup
 
     echo "Cloning GitHub repository with HTTPS URL..."
     git clone https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotfiles-and-homelab.git
@@ -248,7 +187,7 @@ function sops_decryption ()
 
     HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
-    -i "${HELIOS_SETUP_ANSIBLE_DIR}/inventory/group_vars/trinity_helios_parent/secrets.yml"
+    -i "$HELIOS_SETUP_ANSIBLE_DIR/inventory/group_vars/trinity_helios_parent/secrets.yml"
 
     echo "Finished decrypting secrets with SOPS."
 }
@@ -269,27 +208,27 @@ function run_ansible_playbook ()
     --user root --ask-pass -e "desired_hosts=trinity_helios_ip"
 }
 
-#######
-# Main
-######
-set -eEuo pipefail
-if [ "$(detect_distribution)" == "debian" ]; then
-    header_info
-    echo "Detected Debian distribution. Proceeding with the setup..."
+function helios_setup_mod_part_one ()
+{
+    set -eEuo pipefail
+    if [ "$(detect_linux_distribution)" == "debian" ]; then
+        helios_setup_part_one_header_info
+        echo "Detected Debian distribution. Proceeding with the setup..."
 
-    base_installation
-    github_pat_setup
-    sops_setup
-    clone_repo
-    sops_decryption
-    run_ansible_playbook
+        base_installation
+        github_pat_setup
+        sops_setup
+        clone_repo
+        sops_decryption
+        run_ansible_playbook
 
-    echo ""
-    echo "helios-setup bash script and ansible playbook completed successfully!"
-    echo "Reboot trinity-helios for some changes to take effect."
-else
-    header_info
-    echo ""
-    echo "Uh-oh. Your distribution is currently not supported."
-    echo "This script is only intended to run on Debian distributions currently."
-fi
+        echo ""
+        echo "'Helios-Setup : Part 1' bash script completed successfully!"
+        echo "Reboot trinity-helios for some changes to take effect."
+    else
+        helios_setup_part_one_header_info
+        echo ""
+        echo "Uh-oh. Your distribution is currently not supported."
+        echo "This script is only intended to run on Debian distributions currently."
+    fi
+}
