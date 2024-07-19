@@ -10,7 +10,7 @@ IFS=',' read -r -a folders <<< "$STOW_FOLDERS"
 for folder in "${folders[@]}"
 do
     echo "stow $folder"
-    stow -D "$folder" -t "$HOME" 2>/dev/null # Hides bug warnings. I only did it because of steam.
+    stow -R "$folder" -t "$HOME" 2>/dev/null # Hides bug warnings. I only did it because of steam.
     stow "$folder" -t "$HOME" 2>/dev/null # Hides bug warnings. I only did it because of steam.
 done
 

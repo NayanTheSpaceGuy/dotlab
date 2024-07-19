@@ -64,15 +64,6 @@ export LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 alias grep="/usr/bin/grep $GREP_OPTIONS"
 unset GREP_OPTIONS
 
-# Color for manpages in less makes manpages a little easier to read
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[01;31m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;44;33m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[01;32m'
-
 # Other XDG paths
 export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}
@@ -89,6 +80,7 @@ export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+export GOPATH="$XDG_DATA_HOME"/go
 export WINEPREFIX="$XDG_DATA_HOME"/wine
 export XINITRC="$XDG_CONFIG_HOME"/X11/.xinitrc
 export XAUTHORITY="$XDG_RUNTIME_DIR"/.Xauthority
@@ -235,28 +227,28 @@ distribution ()
 	local dtype
 	# Assume unknown
 	dtype="unknown"
-	
+
 	# First test against Fedora / RHEL / CentOS / generic Redhat derivative
 	if [ -r /etc/rc.d/init.d/functions ]; then
 		source /etc/rc.d/init.d/functions
 		[ zz`type -t passed 2>/dev/null` == "zzfunction" ] && dtype="redhat"
-	
+
 	# Then test against SUSE (must be after Redhat,
 	# I've seen rc.status on Ubuntu I think? TODO: Recheck that)
 	elif [ -r /etc/rc.status ]; then
 		source /etc/rc.status
 		[ zz`type -t rc_reset 2>/dev/null` == "zzfunction" ] && dtype="suse"
-	
+
 	# Then test against Debian, Ubuntu and friends
 	elif [ -r /lib/lsb/init-functions ]; then
 		source /lib/lsb/init-functions
 		[ zz`type -t log_begin_msg 2>/dev/null` == "zzfunction" ] && dtype="debian"
-	
+
 	# Then test against Gentoo
 	elif [ -r /etc/init.d/functions.sh ]; then
 		source /etc/init.d/functions.sh
 		[ zz`type -t ebegin 2>/dev/null` == "zzfunction" ] && dtype="gentoo"
-	
+
 	# For Mandriva we currently just test if /etc/mandriva-release exists
 	# and isn't empty (TODO: Find a better way :)
 	elif [ -s /etc/mandriva-release ]; then
@@ -352,14 +344,14 @@ function whatsmyip ()
 {
 	# Dumps a list of all IP addresses for every device
 	# /sbin/ifconfig |grep -B1 "inet addr" |awk '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:" ,$1 } }' |awk -F: '{ print $1 ": " $3 }';
-	
+
 	### Old commands
 	# Internal IP Lookup
 	#echo -n "Internal IP: " ; /sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'
 #
 #	# External IP Lookup
 	#echo -n "External IP: " ; wget http://smart-ip.net/myip -O - -q
-	
+
 	# Internal IP Lookup.
 	if [ -e /sbin/ip ];
 	then
@@ -368,7 +360,7 @@ function whatsmyip ()
 		echo -n "Internal IP: " ; /sbin/ifconfig wlan0 | grep "inet " | awk -F: '{print $1} |' | awk '{print $2}'
 	fi
 
-	# External IP Lookup 
+	# External IP Lookup
 	echo -n "External IP: " ; curl -s ifconfig.me
 }
 
