@@ -88,6 +88,8 @@ export GVIMINIT='let $MYGVIMRC="$XDG_CONFIG_HOME/nvim/gvimrc" | source $MYGVIMRC
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/nvim/init.lua" | source $MYVIMRC'
 export MINETEST_USER_PATH="$XDG_DATA_HOME"/minetest
 
+export PATH=${PATH}:`go env GOPATH`/bin
+
 #######################################################
 # MACHINE SPECIFIC ALIAS'S
 #######################################################
