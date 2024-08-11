@@ -3,11 +3,11 @@
 
 # General Aliase
 alias vim='nvim -u $XDG_CONFIG_HOME/nvim/init.lua'
-alias cat='batcat'
+alias cat='bat'
 alias up="yay && protonup"
 alias neo="neofetch"
-alias adb='HOME="$XDG_DATA_HOME"/android adb'
-alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
+alias adb='HOME=$XDG_DATA_HOME/android adb'
+alias wget=wget --hsts-file='$XDG_DATA_HOME/wget-hsts'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -25,7 +25,6 @@ alias da='date "+%Y-%m-%d %A %T %Z"'
 # Alias's to modified commands
 alias cp='cp -i'
 alias mv='mv -i'
-alias rm='trash -v'
 alias mkdir='mkdir -p'
 alias ps='ps auxf'
 alias ping='ping -c 10'
