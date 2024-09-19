@@ -1,7 +1,7 @@
 <div align="center">
 
-# Dotfiles and Homelab
-NayanTheSpaceGuy's personal dotfiles, homelab configs and preferences.
+# Dotlab
+NayanTheSpaceGuy's personal dotfiles, homelab configs, preferences and boilerplates.
 
 </div>
 <div align="center">
