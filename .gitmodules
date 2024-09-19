@@ -7,6 +7,3 @@
 [submodule "gitlab-submodules/dotfiles-and-homelab-private"]
 	path = gitlab-submodules/dotfiles-and-homelab-private
 	url = git@gitlab.com:spacehlship/dotfiles-and-homelab-private-gitlab.git
-[submodule "boilerplates"]
-	path = boilerplates
-	url = git@github.com:NayanTheSpaceGuy/boilerplates.git
