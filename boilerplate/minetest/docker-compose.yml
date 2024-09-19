@@ -1,0 +1,24 @@
+---
+version: '3'
+
+# Remove or comment out this section if external volume is desired.
+volumes:
+  minetest-config:
+  minetest-data:
+
+services:
+  minetest:
+    image: registry.gitlab.com/minetest/minetest/server:latest
+    container_name: minetest
+    restart: unless-stopped
+    # Change port accordingly.
+    ports:
+      - 30000:30000
+    # Leave unchanged for local volumes.
+    # To set external volume replace 'minetest-config' and/or 'minetest-data' with desired dir.
+    volumes:
+      - minetest-config:/etc/minetest
+      - minetest-data:/var/lib/minetest
+    environment:
+      - TZ=IN
+      - "CLI_ARGS=--config /etc/minetest/minetest.conf"

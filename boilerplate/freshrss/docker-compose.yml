@@ -1,0 +1,42 @@
+---
+version: "2.4"
+
+# Remove or comment out this section if external volume is desired.
+volumes:
+  data:
+  extensions:
+
+services:
+  freshrss:
+    image: freshrss/freshrss:latest
+    container_name: freshrss
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 10m
+    # Leave unchanged for local volumes.
+    # To set external volume replace the first value with desired dir.
+    volumes:
+      # Recommended volume for FreshRSS persistent data such as configuration and SQLite databases
+      - data:/var/www/FreshRSS/data
+      # Optional volume for storing third-party extensions
+      - extensions:/var/www/FreshRSS/extensions
+      # Optional file providing custom global settings (used before a FreshRSS install)
+      - data/config.custom.php:/var/www/FreshRSS/data/config.custom.php
+      # Optional file providing custom user settings (used before a new user is created)
+      - data/config-user.custom.php:/var/www/FreshRSS/data/config-user.custom.php
+    ports:
+      # Change port accordingly:
+      - "8080:80"
+    environment:
+      # A timezone http://php.net/timezones (default is UTC)
+      TZ: IN
+      # Cron job to refresh feeds at specified minutes
+      CRON_MIN: '2,32'
+      # Optional parameter, remove for automatic settings, set to 0 to disable,
+      # or (if you use a proxy) to a space-separated list of trusted IP ranges
+      # compatible with https://httpd.apache.org/docs/current/mod/mod_remoteip.html#remoteipinternalproxy
+      # This impacts which IP address is logged (X-Forwarded-For or REMOTE_ADDR).
+      # This also impacts external authentication methods;
+      # see https://freshrss.github.io/FreshRSS/en/admins/09_AccessControl.html
+      ## TRUSTED_PROXY: 172.16.0.1/12 192.168.0.1/16

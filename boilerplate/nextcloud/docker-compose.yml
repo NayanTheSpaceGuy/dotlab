@@ -1,0 +1,59 @@
+---
+version: '3'
+
+# Set external to false if the following networks don't exist yet.
+networks:
+  nextcloud-frontend:
+    external: true
+  nextcloud-backend:
+    external: true
+
+# Remove or comment out this section if external volume is desired.
+volumes:
+  nextcloud-data:
+  nextcloud-db:
+
+services:
+  nextcloud-db:
+    image: mariadb:latest
+    container_name: nextcloud-db
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    # Leave unchanged for local volumes.
+    # To set external volume replace 'nextcloud-db' with desired dir.
+    volumes:
+      - nextcloud-db:/var/lib/mysql
+    # Replace these accordingly. Make sure it is same for both services.
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud-user
+    networks:
+      - nextcloud-backend
+  nextcloud-app:
+    image: nextcloud:latest
+    container_name: nextcloud-app
+    restart: unless-stopped
+    # Change port accordingly.
+    ports:
+      - 80:80
+    # Leave unchanged for local volumes.
+    # To set external volume replace 'nextcloud-data' with desired dir.
+    volumes:
+      - nextcloud-data:/var/www/html
+    # Replace these accordingly. Make sure it is same for both services.
+    environment:
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud-user
+      - MYSQL_HOST=nextcloud-db
+    networks:
+      - nextcloud-frontend
+      - nextcloud-backend
+    # Optional : Traefik reverse proxy setup
+    labels:
+      traefik.enable: true
+      traefik.http.routers.nextcloud-app.entrypoints: nextcloud-web
+      traefik.http.routers.nextcloud-app.service: nextcloud-app@docker
+      traefik.http.services.nextcloud-app.loadbalancer.server.port: 80
