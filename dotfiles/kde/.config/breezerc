@@ -1,0 +1,17 @@
+[Common]
+OutlineCloseButton=true
+OutlineIntensity=OutlineMaximum
+ShadowColor=103,83,255
+ShadowSize=ShadowSmall
+
+[Windeco]
+ButtonSize=ButtonLarge
+DrawBorderOnMaximizedWindows=true
+
+[Windeco Exception 0]
+BorderSize=0
+Enabled=true
+ExceptionPattern=.*
+ExceptionType=0
+HideTitleBar=true
+Mask=0

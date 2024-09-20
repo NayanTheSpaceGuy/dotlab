@@ -1,0 +1,21 @@
+[70767f73-b205-46ef-84e2-c93e3db3b20f]
+Description=No Titlebar on Alacritty windows
+noborderrule=2
+wmclass=Alacritty
+wmclassmatch=1
+
+[73375905-c154-42db-a843-b9ebf0a63929]
+desktops=d1149666-308e-4d3b-8bd3-fe60c42b2c94
+desktopsrule=2
+wmclasscomplete=true
+
+[8c2918d4-e90e-434e-a19e-8e13ee5da9c7]
+Description=Floorp only on Desktop 1
+desktops=d1149666-308e-4d3b-8bd3-fe60c42b2c94
+desktopsrule=2
+wmclass=floorp
+wmclassmatch=1
+
+[General]
+count=2
+rules=8c2918d4-e90e-434e-a19e-8e13ee5da9c7,70767f73-b205-46ef-84e2-c93e3db3b20f

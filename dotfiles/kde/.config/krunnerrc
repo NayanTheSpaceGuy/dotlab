@@ -1,0 +1,6 @@
+[General]
+ActivateWhenTypingOnDesktop=false
+FreeFloating=true
+
+[Plugins]
+baloosearchEnabled=true

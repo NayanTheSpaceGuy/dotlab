@@ -1,0 +1,15 @@
+[Applications][@other]
+ShowPopups=false
+
+[Applications][balena-etcher]
+Seen=true
+
+[Applications][floorp]
+Seen=true
+
+[Applications][org.gnome.Nautilus]
+Seen=true
+
+[Notifications]
+LowPriorityPopups=false
+PopupTimeout=1000

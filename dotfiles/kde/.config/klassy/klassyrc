@@ -1,0 +1,11 @@
+[Global]
+LookAndFeelSet=org.kde.klassydarktraditional.desktop
+
+[TitleBarOpacity]
+ActiveTitleBarOpacity=50
+InactiveTitleBarOpacity=30
+OverrideActiveTitleBarOpacity=true
+OverrideInactiveTitleBarOpacity=true
+
+[Windeco]
+CornerRadius=2.5
