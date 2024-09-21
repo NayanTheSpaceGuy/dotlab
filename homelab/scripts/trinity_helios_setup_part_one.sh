@@ -3,10 +3,10 @@
 # Copyright (c) 2024 NayanTheSpaceGuy
 # Author: NayanTheSpaceGuy (nayantsg@proton.me)
 # License: GPLv3.0+
-# https://github.com/NayanTheSpaceGuy/necronux/raw/main/LICENSE
+# https://github.com/NayanTheSpaceGuy/dotlab/raw/main/LICENSE
 
 HELIOS_SETUP_BASE_PATH="$HOME/helios-setup"
-GIT_REPO_RAW_URL="https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main"
+GIT_REPO_RAW_URL="https://raw.githubusercontent.com/NayanTheSpaceGuy/dotlab/main"
 
 # Remove exisiting directory and create new directories
 rm -rf "$HELIOS_SETUP_BASE_PATH"
@@ -21,7 +21,7 @@ wget -O "$HELIOS_SETUP_BASE_PATH/install_sops.sh" "$GIT_REPO_RAW_URL/homelab/scr
 source "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh"
 source "$HELIOS_SETUP_BASE_PATH/update_packages.sh"
 source "$HELIOS_SETUP_BASE_PATH/install_sops.sh"
-source "../common/necronux_header_info.sh"
+# source "../common/necronux_header_info.sh"
 
 ###############################
 # Functions
@@ -70,22 +70,22 @@ function github_pat_setup ()
         mkdir "$HOME"/.github
     fi
 
-    # Check if ~/.github/dotfiles-and-homelab-pat.txt exists
+    # Check if ~/.github/dotlab-pat.txt exists
     if [ -f ~/.github/dotfiles-and-homelab-pat.txt ]; then
         echo "The Personal Access Token already exists."
         read -r -p "Do you want to overwrite it? (y/n) " overwrite
         if [ "$overwrite" == "y" ]; then
             read -r -s -p "Enter the new value for PAT: " new_pat_key_value
-            echo "$new_pat_key_value" > ~/.github/dotfiles-and-homelab-pat.txt
-            chmod 600 ~/.github/dotfiles-and-homelab-pat.txt
+            echo "$new_pat_key_value" > ~/.github/dotlab-pat.txt
+            chmod 600 ~/.github/dotlab-pat.txt
             echo "GitHub PAT updated with the new value."
         else
             echo "Keeping the existing GitHub PAT."
         fi
     else
         read -r -s -p "Enter the value for PAT: " pat_key_value
-        echo "$pat_key_value" > ~/.github/dotfiles-and-homelab-pat.txt
-        chmod 600 ~/.github/dotfiles-and-homelab-pat.txt
+        echo "$pat_key_value" > ~/.github/dotlab-pat.txt
+        chmod 600 ~/.github/dotlab-pat.txt
         echo "GitHub PAT created with the provided value."
     fi
 
@@ -94,7 +94,7 @@ function github_pat_setup ()
 
 function github_pat ()
 {
-    github_pat_value=$(cat ~/.github/dotfiles-and-homelab-pat.txt)
+    github_pat_value=$(cat ~/.github/dotlab-pat.txt)
     echo "$github_pat_value"
 }
 
@@ -111,9 +111,9 @@ function sops_setup ()
         mkdir ~/.sops
     fi
 
-    # Check if ~/.sops/dotfiles-and-homelab-key.txt exists
-    if [ -f ~/.sops/dotfiles-and-homelab-key.txt ]; then
-        echo "The key file ~/.sops/dotfiles-and-homelab-key.txt already exists."
+    # Check if ~/.sops/dotlab-key.txt exists
+    if [ -f ~/.sops/dotlab-key.txt ]; then
+        echo "The key file ~/.sops/dotlab-key.txt already exists."
         read -r -p "Do you want to overwrite it? (y/n) " overwrite
         if [ "$overwrite" == "y" ]; then
             echo "Enter the new value for the key (press Enter on a new line to finish):"
@@ -122,7 +122,7 @@ function sops_setup ()
                 [[ -z "$line" ]] && break
                 new_sops_key_value+="$line"$'\n'
             done
-            echo "$new_sops_key_value" > ~/.sops/dotfiles-and-homelab-key.txt
+            echo "$new_sops_key_value" > ~/.sops/dotlab-key.txt
             echo "SOPS key file updated with the new value."
         else
             echo "Keeping the existing SOPS key file."
@@ -134,14 +134,14 @@ function sops_setup ()
                 [[ -z "$line" ]] && break
                 sops_key_value+="$line"$'\n'
         done
-        echo "$sops_key_value" > ~/.sops/dotfiles-and-homelab-key.txt
+        echo "$sops_key_value" > ~/.sops/dotlab-key.txt
         echo "SOPS key file created with the provided value."
     fi
 
     source ~/.bashrc
 
     # Check if SOPS_AGE_KEY_FILE is set correctly
-    SOPS_AGE_KEY_FILE_NEW_VALUE="$HOME/.sops/dotfiles-and-homelab-key.txt"
+    SOPS_AGE_KEY_FILE_NEW_VALUE="$HOME/.sops/dotlab-key.txt"
     if [ "${SOPS_AGE_KEY_FILE:-}" != "$SOPS_AGE_KEY_FILE_NEW_VALUE" ]; then
         echo "Setting up SOPS_AGE_KEY_FILE environment variable."
         export SOPS_AGE_KEY_FILE="$SOPS_AGE_KEY_FILE_NEW_VALUE"
@@ -172,12 +172,12 @@ function clone_repo ()
     cd "$HOME"/helios-setup
 
     echo "Cloning GitHub repository with HTTPS URL..."
-    git clone https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotfiles-and-homelab.git
-    cd dotfiles-and-homelab
+    git clone https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotlab.git
+    cd dotlab
 
     echo "Removing all existing submodules..."
     rm -rf dotfiles-and-homelab-private
-    rm -rf dotfiles/nvim/.config/nvim
+    rm -rf dotlab/nvim/.config/nvim
     rm -f .gitmodules
     touch .gitmodules
     rm -rf .git/modules
@@ -198,7 +198,7 @@ function sops_decryption ()
     echo "Decrypting secrets with SOPS..."
     echo "-------------------------------"
 
-    HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
+    HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotlab/homelab/ansible"
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
     -i "$HELIOS_SETUP_ANSIBLE_DIR/inventory/group_vars/trinity_helios_parent/secrets.yml"
 
@@ -214,7 +214,7 @@ function run_ansible_playbook ()
     echo "Running the helios-setup ansible playbook..."
     echo "--------------------------------------------"
 
-    HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotfiles-and-homelab/homelab/ansible"
+    HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotlab/homelab/ansible"
     cd "$HELIOS_SETUP_ANSIBLE_DIR"
     ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
     "playbooks/scheduled/helios-cockpit-1-semaphore/setup-trinity-helios-part-1.yml" \
@@ -226,7 +226,7 @@ function run_ansible_playbook ()
 ######
 set -eEuo pipefail
 if [ "$(detect_linux_distribution)" == "debian" ]; then
-    necronux_header_info
+    # necronux_header_info
     part_one_header_info
     echo "Detected Debian distribution. Proceeding with the setup..."
 
@@ -241,7 +241,7 @@ if [ "$(detect_linux_distribution)" == "debian" ]; then
     echo "'Trinity-Helios Setup : Part One' script completed successfully!"
     echo "Reboot trinity-helios for some changes to take effect."
 else
-    necronux_header_info
+    # necronux_header_info
     part_one_header_info
     echo ""
     echo "Uh-oh. Your distribution is currently not supported."
