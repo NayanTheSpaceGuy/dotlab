@@ -1,5 +1,12 @@
+[0aa6e415-018a-4e48-85eb-f7cef32e72e8]
+Description=Anytype only on Desktop 1
+desktops=d1149666-308e-4d3b-8bd3-fe60c42b2c94
+desktopsrule=2
+wmclass=anytype
+wmclassmatch=1
+
 [70767f73-b205-46ef-84e2-c93e3db3b20f]
-Description=No Titlebar on Alacritty windows
+Description=Alacritty w/o title bar
 noborderrule=2
 wmclass=Alacritty
 wmclassmatch=1
@@ -10,12 +17,54 @@ desktopsrule=2
 wmclasscomplete=true
 
 [8c2918d4-e90e-434e-a19e-8e13ee5da9c7]
-Description=Floorp only on Desktop 1
-desktops=d1149666-308e-4d3b-8bd3-fe60c42b2c94
+Description=Floorp Browser only on Desktop 3
+desktops=7a153dc9-4b60-4f4a-9862-7e33b5976d98
 desktopsrule=2
 wmclass=floorp
 wmclassmatch=1
 
+[9033e6d7-9ba6-4145-9031-98f8d80ce872]
+Description=Tor Browser only on Desktop 2
+desktops=1b0bef06-1352-4589-8e9e-2a12286b9e44
+desktopsrule=2
+wmclass=Tor Browser
+wmclassmatch=1
+
 [General]
-count=2
-rules=8c2918d4-e90e-434e-a19e-8e13ee5da9c7,70767f73-b205-46ef-84e2-c93e3db3b20f
+count=9
+rules=0aa6e415-018a-4e48-85eb-f7cef32e72e8,9033e6d7-9ba6-4145-9031-98f8d80ce872,8c2918d4-e90e-434e-a19e-8e13ee5da9c7,c7640894-4ba5-4c25-91c6-85ebe059127c,aa08013a-abc9-4cab-9078-eec159ad25f6,c1e2f7d5-522c-45a3-beae-198fa46f6f16,fd6ffed2-103e-412d-b6b6-729624d5a621,b1451878-8bf9-4207-8103-bf669ecb7a34,70767f73-b205-46ef-84e2-c93e3db3b20f
+
+[aa08013a-abc9-4cab-9078-eec159ad25f6]
+Description=Steam only on Desktop 7
+desktops=c05cb06d-b349-459c-8fe8-a221d7d2e9a5
+desktopsrule=2
+wmclass=steam
+wmclassmatch=1
+
+[b1451878-8bf9-4207-8103-bf669ecb7a34]
+Description=Minecraft only on Desktop 9
+desktops=762f720d-6fd8-4352-a4f8-04ca6da47f78
+desktopsrule=2
+wmclass=Minecraft 1.
+wmclassmatch=2
+
+[c1e2f7d5-522c-45a3-beae-198fa46f6f16]
+Description=Prism Launcher only on Desktop 8
+desktops=6306c3df-27b1-401b-8fdc-66796602a005
+desktopsrule=2
+wmclass=org.prismlauncher.PrismLauncher
+wmclassmatch=1
+
+[c7640894-4ba5-4c25-91c6-85ebe059127c]
+Description=Element only on Desktop 6
+desktops=0b0f6ceb-f0b2-4166-9b2a-10a2353e3de5
+desktopsrule=2
+wmclass=Element
+wmclassmatch=1
+
+[fd6ffed2-103e-412d-b6b6-729624d5a621]
+Description=Minecraft Launcher only on Desktop 8
+desktops=6306c3df-27b1-401b-8fdc-66796602a005
+desktopsrule=2
+wmclass=Minecraft Launcher
+wmclassmatch=1

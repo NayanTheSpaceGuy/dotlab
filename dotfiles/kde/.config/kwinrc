@@ -31,10 +31,11 @@ SlideBackground=false
 TabletMode=off
 
 [NightColor]
-Active=true
+EveningBeginFixed=2100
 LatitudeFixed=19
 LongitudeFixed=73.5078986778575
-Mode=Location
+Mode=Times
+MorningBeginFixed=0500
 NightTemperature=3000
 TransitionTime=1
 
