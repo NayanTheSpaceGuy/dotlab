@@ -9,7 +9,7 @@ HELIOS_SETUP_BASE_PATH="$HOME/helios-setup"
 GIT_REPO_RAW_URL="https://raw.githubusercontent.com/NayanTheSpaceGuy/dotlab/main"
 
 # Download common scripts
-wget -O "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh" "$GIT_REPO_RAW_URL/homelab/scripts/detect_linux_distribution.sh"
+wget -O "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh" "$GIT_REPO_RAW_URL/boilerplates/shell_scripts/detect_linux_distribution.sh"
 
 # Source scripts
 source "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh"

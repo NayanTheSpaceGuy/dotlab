@@ -13,9 +13,9 @@ rm -rf "$HELIOS_SETUP_BASE_PATH"
 mkdir -p "$HELIOS_SETUP_BASE_PATH"
 
 # Download common scripts
-wget -O "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh" "$GIT_REPO_RAW_URL/homelab/scripts/detect_linux_distribution.sh"
-wget -O "$HELIOS_SETUP_BASE_PATH/update_packages.sh" "$GIT_REPO_RAW_URL/homelab/scripts/update_packages.sh"
-wget -O "$HELIOS_SETUP_BASE_PATH/install_sops.sh" "$GIT_REPO_RAW_URL/homelab/scripts/install_sops.sh"
+wget -O "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh" "$GIT_REPO_RAW_URL/boilerplates/shell_scripts/detect_linux_distribution.sh"
+wget -O "$HELIOS_SETUP_BASE_PATH/update_packages.sh" "$GIT_REPO_RAW_URL/homelab/boilerplates/update_packages.sh"
+wget -O "$HELIOS_SETUP_BASE_PATH/install_sops.sh" "$GIT_REPO_RAW_URL/homelab/boilerplates/install_sops.sh"
 
 # Source scripts
 source "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh"
@@ -176,7 +176,7 @@ function clone_repo ()
     cd dotlab
 
     echo "Removing all existing submodules..."
-    rm -rf dotfiles-and-homelab-private
+    rm -rf dotlab-private
     rm -rf dotlab/nvim/.config/nvim
     rm -f .gitmodules
     touch .gitmodules
@@ -184,11 +184,11 @@ function clone_repo ()
 
     echo "Adding submodules with HTTPS URL..."
     git submodule add -f \
-    https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotfiles-and-homelab-private.git \
-    dotfiles-and-homelab-private
+    https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotlab-private.git \
+    dotlab-private
 
     echo "Initializing submodules..."
-    git submodule update --init --recursive dotfiles-and-homelab-private
+    git submodule update --init --recursive dotlab-private
 }
 
 function sops_decryption ()
