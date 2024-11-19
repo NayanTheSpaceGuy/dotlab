@@ -69,17 +69,16 @@
   - This Setup LXC is supposed to be deleted after the final installation step.
     You will be reminded to do so at that step, now continue.
 
-### 3. **Automation : Part One**
-#### 3.1 **Run the Helios-Setup Bash Script**
+### 3. **Infra Setup : Part One**
+#### 3.1 **Install Necronux and run the infra setup : part one*
   - Once you have logged into the LXC,
-    Run the following command to download and execute the helios-setup bash script:
+    Run the following command to download and install necronux and run the part one setup:
     ```
     apt-get update && apt-get install -y wget && \
-    wget https://raw.githubusercontent.com/NayanTheSpaceGuy/dotfiles-and-homelab/main/homelab/bash/bin/helios-setup.sh && \
-    chmod +x ~/helios-setup.sh && \
-    ./helios-setup.sh
+    wget https://github.com/NayanTheSpaceGuy/necronux/releases/latest/download/necronux-linux-x64 && \
+    chmod +x ~/necronux-linux-x64 && \
+    ./necronux-linux-x64 infra run --host=trinity-helios --extra-flag=part-one
     ```
-  - Enter 1 to run part one of the automation process.
   - Enter the GitHub Personal Access Token, when asked. (The input will be hidden for security reasons)
   - Enter the SOPS Public and Private Key line by line, when asked. (The input will be hidden for security reasons)
   - After the script gets completed successfully, reboot trinity-helios.
@@ -91,14 +90,13 @@
   - And now access the Proxmox VE web interface with the new [link](https://trinity-helios.penguin-tegus.ts.net:8006)
   - Also set VLAN tag 99 in the network settings of the helios-setup-lxc
 
-### 4. **Automation : Part Two**
-#### 4.1 **Run the Helios-Setup Bash Script**
+### 4. **Infra Setup : Part Two**
+#### 4.1 **Run the infra setup : part two**
   - Log into the helios-setup-lxc,
-    Run the following command to execute the helios-setup bash script:
+    Run the following command to run the part two setup:
     ```
-    ./helios-setup.sh
+    ./necronux-linux-x64 infra run --host=trinity-helios --extra-flag=part-two
     ```
-  - Enter 2 to run part two of the automation process.
 
 ### 5. **Backup VMs and LXCs**
   - Setup backup jobs with Proxmox VE web interface.
