@@ -10,7 +10,7 @@ jobs:
     - name: Mirror + trigger CI
       uses: SvanBoxel/gitlab-mirror-and-ci-action@master
       with:
-        args: "https://gitlab.com/spacehlship/dotfiles-and-homelab"
+        args: "https://gitlab.com/spacehlship/dotlab"
       env:
         FOLLOW_TAGS: "true"
         FORCE_PUSH: "true"
