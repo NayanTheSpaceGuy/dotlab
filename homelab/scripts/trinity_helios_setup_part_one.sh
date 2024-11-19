@@ -14,8 +14,8 @@ mkdir -p "$HELIOS_SETUP_BASE_PATH"
 
 # Download common scripts
 wget -O "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh" "$GIT_REPO_RAW_URL/boilerplates/shell_scripts/detect_linux_distribution.sh"
-wget -O "$HELIOS_SETUP_BASE_PATH/update_packages.sh" "$GIT_REPO_RAW_URL/homelab/boilerplates/update_packages.sh"
-wget -O "$HELIOS_SETUP_BASE_PATH/install_sops.sh" "$GIT_REPO_RAW_URL/homelab/boilerplates/install_sops.sh"
+wget -O "$HELIOS_SETUP_BASE_PATH/update_packages.sh" "$GIT_REPO_RAW_URL/homelab/boilerplates/shell_scripts/update_packages.sh"
+wget -O "$HELIOS_SETUP_BASE_PATH/install_sops.sh" "$GIT_REPO_RAW_URL/homelab/boilerplates/shell_scripts/install_sops.sh"
 
 # Source scripts
 source "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh"
