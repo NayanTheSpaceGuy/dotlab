@@ -50,12 +50,12 @@ resource "proxmox_vm_qemu" "taurus-sp1" {
   network {
     bridge = "vmbr0"
     model  = "virtio"
-    tag    = "9"
+    tag    = "99"
   }
 
   # Cloud-Init settings
-  ipconfig0  = "ip=10.72.9.51/24,gw=10.72.9.1,ip6=dhcp"
-  nameserver = "10.72.9.1"
+  ipconfig0  = "ip=10.27.9.51/24,gw=10.27.9.1,ip6=dhcp"
+  nameserver = "10.27.9.1"
   ciuser     = "ntsa"
   cipassword = var.GENERAL_CI_PASSWORD
   sshkeys    = var.PUBLIC_SSH_KEYS

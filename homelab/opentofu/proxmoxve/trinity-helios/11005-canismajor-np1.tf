@@ -51,7 +51,7 @@ resource "proxmox_vm_qemu" "canismajor-np1" {
   network {
     bridge = "vmbr0"
     model  = "virtio"
-    tag    = "9"
+    tag    = "99"
   }
 
   # Lifecycle management
