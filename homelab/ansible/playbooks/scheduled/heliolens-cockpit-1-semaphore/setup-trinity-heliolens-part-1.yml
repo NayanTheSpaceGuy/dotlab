@@ -2,9 +2,9 @@
 - hosts: localhost
 
 - name: Set variables and import part-1 playbook
-  import_playbook: ../../on-demand/setup/trinity-helios/part-1.yml
+  import_playbook: ../../on-demand/setup/trinity-heliolens/part-1.yml
   vars:
-    desired_hosts: "trinity_helios"
+    desired_hosts: "trinity_heliolens"
 
     desired_iac_tf_role: "OpentofuProv"
     desired_iac_tf_group: "opentofugroup"

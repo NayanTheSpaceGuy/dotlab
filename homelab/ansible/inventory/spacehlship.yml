@@ -22,16 +22,16 @@ nas_prod:
     np1.trinity.spacehlship.xyz
 
 # Bare metal hosts
-trinity_helios:
+trinity_heliolens:
   hosts:
-    helios.trinity.spacehlship.xyz
+    heliolens.trinity.spacehlship.xyz
 
-trinity_helios_ip:
+trinity_heliolens_ip:
   hosts:
     10.27.9.200
 
 # Trinity_helios
-trinity_helios_parent:
+trinity_heliolens_parent:
   children:
-    trinity_helios:
-    trinity_helios_ip:
+    trinity_heliolens:
+    trinity_heliolens_ip:

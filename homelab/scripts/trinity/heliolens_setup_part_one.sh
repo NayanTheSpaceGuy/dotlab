@@ -5,22 +5,22 @@
 # License: GPLv3.0+
 # https://github.com/NayanTheSpaceGuy/dotlab/raw/main/LICENSE
 
-HELIOS_SETUP_BASE_PATH="$HOME/helios-setup"
+HELIOLENS_SETUP_BASE_PATH="$HOME/heliolens-setup"
 GIT_REPO_RAW_URL="https://raw.githubusercontent.com/NayanTheSpaceGuy/dotlab/main"
 
 # Remove exisiting directory and create new directories
-rm -rf "$HELIOS_SETUP_BASE_PATH"
-mkdir -p "$HELIOS_SETUP_BASE_PATH"
+rm -rf "$HELIOLENS_SETUP_BASE_PATH"
+mkdir -p "$HELIOLENS_SETUP_BASE_PATH"
 
 # Download common scripts
-wget -O "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh" "$GIT_REPO_RAW_URL/boilerplates/shell_scripts/detect_linux_distribution.sh"
-wget -O "$HELIOS_SETUP_BASE_PATH/update_packages.sh" "$GIT_REPO_RAW_URL/homelab/boilerplates/shell_scripts/update_packages.sh"
-wget -O "$HELIOS_SETUP_BASE_PATH/install_sops.sh" "$GIT_REPO_RAW_URL/homelab/boilerplates/shell_scripts/install_sops.sh"
+wget -O "$HELIOLENS_SETUP_BASE_PATH/detect_linux_distribution.sh" "$GIT_REPO_RAW_URL/boilerplates/shell_scripts/detect_linux_distribution.sh"
+wget -O "$HELIOLENS_SETUP_BASE_PATH/update_packages.sh" "$GIT_REPO_RAW_URL/homelab/boilerplates/shell_scripts/update_packages.sh"
+wget -O "$HELIOLENS_SETUP_BASE_PATH/install_sops.sh" "$GIT_REPO_RAW_URL/homelab/boilerplates/shell_scripts/install_sops.sh"
 
 # Source scripts
-source "$HELIOS_SETUP_BASE_PATH/detect_linux_distribution.sh"
-source "$HELIOS_SETUP_BASE_PATH/update_packages.sh"
-source "$HELIOS_SETUP_BASE_PATH/install_sops.sh"
+source "$HELIOLENS_SETUP_BASE_PATH/detect_linux_distribution.sh"
+source "$HELIOLENS_SETUP_BASE_PATH/update_packages.sh"
+source "$HELIOLENS_SETUP_BASE_PATH/install_sops.sh"
 # source "../common/necronux_header_info.sh"
 
 ###############################
@@ -28,9 +28,9 @@ source "$HELIOS_SETUP_BASE_PATH/install_sops.sh"
 ##############################
 function part_one_header_info ()
 {
-    echo "-------------------------------"
-    echo "TRINITY-HELIOS SETUP : PART ONE"
-    echo "-------------------------------"
+    echo "----------------------------------"
+    echo "TRINITY-HELIOLENS SETUP : PART ONE"
+    echo "----------------------------------"
     echo ""
     echo "Loading..."
 }
@@ -167,9 +167,9 @@ function clone_repo ()
     echo "----------------------"
 
     echo "Creating new setup directory and navigating to it..."
-    rm -rf "$HOME"/helios-setup || return
-    mkdir "$HOME"/helios-setup
-    cd "$HOME"/helios-setup
+    rm -rf "$HOME"/heliolens-setup || return
+    mkdir "$HOME"/heliolens-setup
+    cd "$HOME"/heliolens-setup
 
     echo "Cloning GitHub repository with HTTPS URL..."
     git clone https://NayanTheSpaceGuy:"$(github_pat)"@github.com/NayanTheSpaceGuy/dotlab.git
@@ -198,9 +198,9 @@ function sops_decryption ()
     echo "Decrypting secrets with SOPS..."
     echo "-------------------------------"
 
-    HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotlab/homelab/ansible"
+    HELIOLENS_SETUP_ANSIBLE_DIR="$HOME/heliolens-setup/dotlab/homelab/ansible"
     sops --decrypt --age $(cat $SOPS_AGE_KEY_FILE |grep -oP "public key: \K(.*)") \
-    -i "$HELIOS_SETUP_ANSIBLE_DIR/inventory/group_vars/trinity_helios_parent/secrets.yml"
+    -i "$HELIOLENS_SETUP_ANSIBLE_DIR/inventory/group_vars/trinity_heliolens_parent/secrets.yml"
 
     echo "Finished decrypting secrets with SOPS."
 }
@@ -210,15 +210,15 @@ function run_ansible_playbook ()
     echo "Proceeding with ansible for further setup..."
 
     echo ""
-    echo "--------------------------------------------"
-    echo "Running the helios-setup ansible playbook..."
-    echo "--------------------------------------------"
+    echo "-----------------------------------------------"
+    echo "Running the heliolens-setup ansible playbook..."
+    echo "-----------------------------------------------"
 
-    HELIOS_SETUP_ANSIBLE_DIR="$HOME/helios-setup/dotlab/homelab/ansible"
-    cd "$HELIOS_SETUP_ANSIBLE_DIR"
+    HELIOLENS_SETUP_ANSIBLE_DIR="$HOME/heliolens-setup/dotlab/homelab/ansible"
+    cd "$HELIOLENS_SETUP_ANSIBLE_DIR"
     ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
-    "playbooks/scheduled/helios-cockpit-1-semaphore/setup-trinity-helios-part-1.yml" \
-    --user root --ask-pass -e "desired_hosts=trinity_helios_ip"
+    "playbooks/scheduled/heliolens-cockpit-1-semaphore/setup-trinity-heliolens-part-1.yml" \
+    --user root --ask-pass -e "desired_hosts=trinity_heliolens_ip"
 }
 
 #######
@@ -238,8 +238,8 @@ if [ "$(detect_linux_distribution)" == "debian" ]; then
     run_ansible_playbook
 
     echo ""
-    echo "'Trinity-Helios Setup : Part One' script completed successfully!"
-    echo "Reboot trinity-helios for some changes to take effect."
+    echo "'Trinity-Heliolens Setup : Part One' script completed successfully!"
+    echo "Reboot trinity-heliolens for some changes to take effect."
 else
     # necronux_header_info
     part_one_header_info
