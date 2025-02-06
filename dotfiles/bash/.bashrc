@@ -89,7 +89,7 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/nvim/init.lua" | source $MYVIMRC'
 export MINETEST_USER_PATH="$XDG_DATA_HOME"/minetest
 export OLLAMA_MODELS="/mnt/media/llms/ollama/models"
 
-export PATH=${PATH}:`go env GOPATH`/bin
+export PATH=${PATH}:`go env GOPATH`/bin:$CARGO_HOME/bin
 
 #######################################################
 # MACHINE SPECIFIC ALIAS'S
@@ -532,4 +532,20 @@ elif [ -f "/usr/share/autojump/autojump.bash" ]; then
 else
 	echo "can't found the autojump script"
 fi
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/anaconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/anaconda/etc/profile.d/conda.sh" ]; then
+        . "/opt/anaconda/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/anaconda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
