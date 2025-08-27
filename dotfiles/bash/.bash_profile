@@ -10,7 +10,7 @@ if [[ "$(tty)" = "/dev/tty1" ]]; then
 fi
 
 # Defaults
-VIM="nvim"
+VIM="lvim"
 
 # Exporting env "variables
 export DOTFILES=$HOME/personal/dotfiles

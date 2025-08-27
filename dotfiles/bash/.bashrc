@@ -54,8 +54,8 @@ if [[ $iatest -gt 0 ]]; then bind "set completion-ignore-case on"; fi
 if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
 
 # Set the default editor
-export EDITOR=nvim
-export VISUAL=nvim
+export EDITOR=lvim
+export VISUAL=lvim
 
 # To have colors for ls and all grep commands such as grep, egrep and zgrep
 export CLICOLOR=1
@@ -81,7 +81,7 @@ export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export GOPATH="$XDG_DATA_HOME"/go
-export WINEPREFIX="$XDG_DATA_HOME"/wine
+export WINEPREFIX=/mnt/games/wine
 export XINITRC="$XDG_CONFIG_HOME"/X11/.xinitrc
 export XAUTHORITY="$XDG_RUNTIME_DIR"/.Xauthority
 export GVIMINIT='let $MYGVIMRC="$XDG_CONFIG_HOME/nvim/gvimrc" | source $MYGVIMRC'
@@ -89,7 +89,7 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/nvim/init.lua" | source $MYVIMRC'
 export MINETEST_USER_PATH="$XDG_DATA_HOME"/minetest
 export OLLAMA_MODELS="/mnt/media/llms/ollama/models"
 
-export PATH=${PATH}:`go env GOPATH`/bin:$CARGO_HOME/bin
+export PATH=${PATH}:`go env GOPATH`/bin:$CARGO_HOME/bin:$HOME/.local/bin
 
 #######################################################
 # MACHINE SPECIFIC ALIAS'S
